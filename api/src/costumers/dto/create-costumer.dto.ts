@@ -1,8 +1,7 @@
 import { Type } from 'class-transformer';
 import {
   IsEmail,
-  IsIdentityCard,
-  IsMobilePhone,
+  IsNumberString,
   Length,
   ValidateNested,
 } from 'class-validator';
@@ -16,13 +15,15 @@ export class CreateCostumerDto {
   @IsEmail()
   email: string;
 
-  @Length(11)
+  @Length(11, 11)
+  @IsNumberString()
   phone: string;
 
   @ValidateNested()
   @Type(() => Address)
   address: Address;
 
-  @Length(11)
+  @Length(11, 11)
+  @IsNumberString()
   cpf: string;
 }

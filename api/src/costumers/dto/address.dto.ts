@@ -1,4 +1,4 @@
-import { IsOptional, IsPostalCode, Length } from 'class-validator';
+import { IsNumberString, IsOptional, Length } from 'class-validator';
 
 export class Address {
   @Length(3, 255)
@@ -17,6 +17,7 @@ export class Address {
   @Length(3, 255)
   city: string;
 
-  @IsPostalCode('BR')
+  @Length(8, 8)
+  @IsNumberString()
   postalCode: string;
 }
