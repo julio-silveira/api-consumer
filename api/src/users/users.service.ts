@@ -11,12 +11,12 @@ export class UsersService {
   ) {}
 
   async findOne(username: string): Promise<User | null> {
-    return await this.userModel.findOne({ username });
+    return await this.userModel.findOne({ username }).exec();
   }
 
   private async checkUsernameAvailability(username: string): Promise<boolean> {
     const user = await this.findOne(username);
-    return user !== null;
+    return user === null;
   }
 
   async hashPassword(password: string): Promise<string> {
@@ -25,8 +25,9 @@ export class UsersService {
 
   async create({ username, password }: UserDto) {
     const isUsernameAvaliable = await this.checkUsernameAvailability(username);
+    console.log(username, isUsernameAvaliable);
     if (!isUsernameAvaliable)
-      throw new BadRequestException('Username aleready taken');
+      throw new BadRequestException('Username already taken');
 
     const hashedPassword = await this.hashPassword(password);
 
