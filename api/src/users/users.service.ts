@@ -34,7 +34,6 @@ export class UsersService {
     const hashedPassword = await this.hashPassword(password);
 
     const userDataToSave: User = { username, password: hashedPassword };
-
     const newUser = await this.userModel.create(userDataToSave);
 
     return { message: `${newUser.username} was successfully registered!` };

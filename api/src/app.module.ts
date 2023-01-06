@@ -6,7 +6,7 @@ import { UsersModule } from './users/users.module';
   imports: [
     UsersModule,
     MongooseModule.forRoot(
-      process.env.MONGODB_URL || 'mongodb://mongodb:27017/sharenergy-db',
+      process.env.MONGODB_URL || 'mongodb://db:27017/sharenergy-db',
     ),
   ],
   controllers: [],
