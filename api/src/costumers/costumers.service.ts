@@ -14,7 +14,7 @@ export class CostumersService {
 
   async create(createCostumerDto: CreateCostumerDto) {
     const newCostumer = await this.costumerModel.create(createCostumerDto);
-    return newCostumer;
+    return { message: `${newCostumer.name} foi registrado com sucesso!` };
   }
 
   async findAll() {
@@ -26,14 +26,12 @@ export class CostumersService {
   }
 
   async update(id: ObjectId, updateCostumerDto: UpdateCostumerDto) {
-    const patchedCostumer = await this.costumerModel.findOneAndUpdate(
-      { _id: id },
-      updateCostumerDto,
-    );
-    return patchedCostumer;
+    await this.costumerModel.findOneAndUpdate({ _id: id }, updateCostumerDto);
+    return { message: `Usuário de ID ${id} foi atualizado.` };
   }
 
   async remove(id: ObjectId) {
-    return await this.costumerModel.remove({ _id: id });
+    await this.costumerModel.remove({ _id: id });
+    return { message: `Usuário de ID ${id} foi removido.` };
   }
 }
