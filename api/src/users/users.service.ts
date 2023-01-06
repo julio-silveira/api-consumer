@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { UserDto } from './dto/user.dto';
 import { User, UserDocument } from './schemas/user.schema';
@@ -20,12 +21,13 @@ export class UsersService {
   }
 
   async hashPassword(password: string): Promise<string> {
-    return password;
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(password, salt);
+    return hash;
   }
 
   async create({ username, password }: UserDto) {
     const isUsernameAvaliable = await this.checkUsernameAvailability(username);
-    console.log(username, isUsernameAvaliable);
     if (!isUsernameAvaliable)
       throw new BadRequestException('Username already taken');
 

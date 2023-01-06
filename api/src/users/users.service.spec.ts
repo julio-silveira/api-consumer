@@ -1,6 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
+import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { User } from './schemas/user.schema';
 import { oneUser } from './tests/mocks';
@@ -52,6 +53,29 @@ describe('findOne', () => {
     } as any);
 
     expect(await service.findOne('user01')).toBeNull();
+  });
+});
+
+describe('hashPassword', () => {
+  let service: UsersService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule(
+      serviceConfig,
+    ).compile();
+
+    service = module.get<UsersService>(UsersService);
+  });
+
+  it('should be defined', () => {
+    expect(service.hashPassword).toBeDefined();
+  });
+
+  it('should convert the password in valid bcrypt hash', async () => {
+    const password = '12345678';
+    const hashedPassword = await service.hashPassword(password);
+    const isPasswordMatch = await bcrypt.compare(password, hashedPassword);
+    expect(isPasswordMatch).toBeTruthy;
   });
 });
 
