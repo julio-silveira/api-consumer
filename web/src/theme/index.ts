@@ -8,6 +8,16 @@ const theme = createTheme({
     secondary: {
       main: '#1BA2A1'
     }
+  },
+  components: {
+    MuiList: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#0F1624',
+          color: 'white'
+        }
+      }
+    }
   }
 })
 
