@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosRequestConfig } from 'axios'
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { useEffect, useState } from 'react'
 
 const useAxios = (axiosParams: AxiosRequestConfig) => {
@@ -10,7 +10,7 @@ const useAxios = (axiosParams: AxiosRequestConfig) => {
     try {
       const result = await axios.request(params)
       setResponse(result.data)
-      return result.data
+      return result
     } catch (err) {
       setError(err as AxiosError)
     } finally {

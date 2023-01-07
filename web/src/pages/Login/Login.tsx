@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Box,
   Button,
@@ -12,10 +12,17 @@ import {
 import { CustomMainBox } from '../../Components/CustomMainBox'
 import useForm from '../../hooks/useForm'
 import useAxios from '../../hooks/useAxios'
+import {
+  getRemember,
+  saveRemember,
+  saveToken
+} from '../../helpers/localStorageHelper'
+import { useNavigate } from 'react-router-dom'
 
 const initialState = { username: '', password: '' }
 
 const Login: React.FC = () => {
+  const navigate = useNavigate()
   const [remember, setRemember] = useState(false)
   const { formData, onInputChange } = useForm(initialState)
   const { newAxiosRequest } = useAxios({})
@@ -33,8 +40,17 @@ const Login: React.FC = () => {
         password: formData.password
       }
     })
-    console.log(axiosResponse)
+
+    if (axiosResponse?.status === 200) {
+      saveRemember(remember)
+      saveToken(axiosResponse?.data.access_token)
+      return navigate('/home')
+    }
   }
+
+  useEffect(() => {
+    if (getRemember()) navigate('/home')
+  }, [])
 
   const { username, password } = formData
   return (
@@ -46,6 +62,7 @@ const Login: React.FC = () => {
     >
       <Paper
         component={Stack}
+        elevation={6}
         spacing={{ xs: 0, sm: 1 }}
         width={{ xs: '90%', sm: '30%' }}
       >
@@ -53,14 +70,14 @@ const Login: React.FC = () => {
           onSubmit={handleSubmit}
           component="form"
           spacing={1}
-          py={2}
+          py={6}
           px={3}
         >
-          <Box sx={{ display: 'flex', justifyContent: 'center' }} pb={1}>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }} pb={3}>
             <img
               width="80%"
               src="https://www.sharenergy.com.br/wp-content/uploads/2022/12/logo_color.png"
-              alt="ShareEnergyLogo"
+              alt="SharenergyLogo"
             />
           </Box>
           <TextField
@@ -80,6 +97,7 @@ const Login: React.FC = () => {
             label="Senha"
           />
           <FormControlLabel
+            sx={{ justifyContent: 'center' }}
             onChange={() => setRemember(!remember)}
             control={<Checkbox size="small" />}
             label="Lembrar de mim?"
