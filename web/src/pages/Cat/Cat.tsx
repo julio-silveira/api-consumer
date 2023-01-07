@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import React from 'react'
 
-const Login: React.FC = () => {
+const Cat: React.FC = () => {
   return (
     <Box
       sx={{
@@ -12,9 +12,9 @@ const Login: React.FC = () => {
         justifyContent: 'center'
       }}
     >
-      Login
+      Cat
     </Box>
   )
 }
 
-export default Login
+export default Cat
