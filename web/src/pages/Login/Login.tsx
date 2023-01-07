@@ -7,7 +7,6 @@ import {
   TextField
 } from '@mui/material'
 import React from 'react'
-import { primaryColor } from '../../Theme/colorPalette'
 
 const Login: React.FC = () => {
   return (
@@ -35,11 +34,7 @@ const Login: React.FC = () => {
               alt="ShareEnergyLogo"
             />
           </Box>
-          <TextField
-            sx={{ color: primaryColor }}
-            type="text"
-            label="Nome de Usuário"
-          />
+          <TextField type="text" label="Nome de Usuário" />
           <TextField type="password" label="Senha" />
           <FormControlLabel
             control={<Checkbox size="small" />}
