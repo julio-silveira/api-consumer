@@ -30,27 +30,27 @@ services:
     env_file:
        - .env
     depends_on:
-      - mongodb
+      - db
     healthcheck:
       test: ["CMD", "lsof", "-t", "-i:${API_PORT}"]
       timeout: 10s
       retries: 5
   
-  app:
-    container_name: app
-    build: ./app
-    working_dir: /app
+  web:
+    container_name: web
+    build: ./web
+    working_dir: /web
     volumes:
-      - ./app/src:/app/src
+      - ./web/src:/web/src
     env_file:
       - .env
     ports:
-      - ${APP_PORT}:${APP_PORT}
+      - ${WEB_PORT}:${WEB_PORT}
     depends_on:
       api:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "lsof", "-t", "-i:${APP_PORT}"]
+      test: ["CMD", "lsof", "-t", "-i:${WEB_PORT}"]
       timeout: 10s
       retries: 5
 

@@ -3,15 +3,14 @@ import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 
-
-export default ({mode}) => {
+export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
 
-return defineConfig({
-  plugins: [react()],
-  server: {
-    host: '0.0.0.0',
-    port: Number(process.env.APP_PORT || 5173)
-  }
-})
+  return defineConfig({
+    plugins: [react()],
+    server: {
+      host: '0.0.0.0',
+      port: Number(process.env.WEB_PORT || 5173)
+    }
+  })
 }

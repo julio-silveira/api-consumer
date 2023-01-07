@@ -1,12 +1,12 @@
 FROM node:16.14-alpine
 
-WORKDIR /app
+WORKDIR /web
 
 COPY package*.json ./
 
 RUN npm install
 
-EXPOSE ${APP_PORT}
+EXPOSE ${WEB_PORT}
 
 COPY . .
 
