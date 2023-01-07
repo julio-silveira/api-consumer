@@ -35,6 +35,24 @@ services:
       test: ["CMD", "lsof", "-t", "-i:${API_PORT}"]
       timeout: 10s
       retries: 5
+  
+  app:
+    container_name: app
+    build: ./app
+    working_dir: /app
+    volumes:
+      - ./app/src:/app/src
+    env_file:
+      - .env
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:${APP_PORT}"]
+      timeout: 10s
+      retries: 5
 
 volumes:
   mongodb_data_container:
