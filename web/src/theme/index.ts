@@ -13,7 +13,7 @@ const theme = createTheme({
     MuiList: {
       styleOverrides: {
         root: {
-          backgroundColor: '#0F1624',
+          backgroundColor: '#1BA2A1',
           color: 'white'
         }
       }

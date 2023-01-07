@@ -65,6 +65,7 @@ const Login: React.FC = () => {
         elevation={6}
         spacing={{ xs: 0, sm: 1 }}
         width={{ xs: '90%', sm: '30%' }}
+        sx={{ bgcolor: '#EFEFEF' }}
       >
         <Stack
           onSubmit={handleSubmit}
@@ -81,6 +82,7 @@ const Login: React.FC = () => {
             />
           </Box>
           <TextField
+            color="secondary"
             name="username"
             value={username}
             onChange={onInputChange}
@@ -89,6 +91,7 @@ const Login: React.FC = () => {
             label="Nome de usuário"
           />
           <TextField
+            color="secondary"
             name="password"
             value={password}
             onChange={onInputChange}
@@ -99,7 +102,7 @@ const Login: React.FC = () => {
           <FormControlLabel
             sx={{ justifyContent: 'center' }}
             onChange={() => setRemember(!remember)}
-            control={<Checkbox size="small" />}
+            control={<Checkbox color="secondary" size="small" />}
             label="Lembrar de mim?"
           />
           <Button type="submit" color="secondary" variant="contained">

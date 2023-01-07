@@ -1,8 +1,7 @@
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
-import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Menu from '@mui/material/Menu'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -10,24 +9,59 @@ import Container from '@mui/material/Container'
 import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
 import LogoutIcon from '@mui/icons-material/Logout'
+import CustomIconButton from '../CustomIconButton/CustomIconButton'
+import { clearLocalStorage, getToken } from '../../helpers/localStorageHelper'
+import { useNavigate } from 'react-router-dom'
+import useAxios from '../../hooks/useAxios'
 
 const pages = ['Home', 'Cats', 'Dogs', 'Costumers']
 
 const Header: React.FC = () => {
+  const navigate = useNavigate()
+  const { newAxiosRequest } = useAxios({})
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
+
+  useEffect(() => {
+    const isAuth = async () => {
+      const token = getToken()
+      const axiosResponse = await newAxiosRequest({
+        url: 'http://localhost:3000/costumers',
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      })
+      if (!axiosResponse) {
+        handleLogout()
+      }
+    }
+    isAuth()
+  }, [])
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
   }
 
+  const handleRedirect = (page: string) => {
+    const route = `/${page.toLowerCase()}`
+    handleCloseNavMenu()
+    return navigate(route)
+  }
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
+  }
+
+  const handleLogout = () => {
+    clearLocalStorage()
+    return navigate('/')
   }
 
   return (
     <AppBar
       component="header"
-      sx={{ bgcolor: '#161C2D', position: 'fixed', top: 0, zIndex: 2 }}
+      color="secondary"
+      sx={{ position: 'fixed', top: 0, zIndex: 2 }}
       position="static"
     >
       <Container maxWidth="xl">
@@ -47,15 +81,10 @@ const Header: React.FC = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon sx={{ color: 'white' }} />
-            </IconButton>
+            <CustomIconButton onClick={handleOpenNavMenu}>
+              <MenuIcon />
+            </CustomIconButton>
             <Menu
-              id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
@@ -73,7 +102,7 @@ const Header: React.FC = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem onClick={() => handleRedirect(page)} key={page}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -89,14 +118,14 @@ const Header: React.FC = () => {
             <img
               width="150px"
               src="https://www.sharenergy.com.br/wp-content/uploads/2022/12/logo_color.png"
-              alt="SharenergyLogo"
+              alt="sharenergylogo"
             />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => handleRedirect(page)}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
@@ -105,9 +134,9 @@ const Header: React.FC = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <IconButton size="large">
-              <LogoutIcon sx={{ color: 'white' }} />
-            </IconButton>
+            <CustomIconButton onClick={handleLogout}>
+              <LogoutIcon />
+            </CustomIconButton>
           </Box>
         </Toolbar>
       </Container>

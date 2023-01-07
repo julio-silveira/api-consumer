@@ -13,3 +13,8 @@ export const getToken = () => localStorage.getItem(TOKEN_KEY) || ''
 
 export const saveToken = (token: string) =>
   localStorage.setItem(TOKEN_KEY, token)
+
+export const clearLocalStorage = () => {
+  localStorage.removeItem(TOKEN_KEY)
+  localStorage.removeItem(REMEMBER_KEY)
+}

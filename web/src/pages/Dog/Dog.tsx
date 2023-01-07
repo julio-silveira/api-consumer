@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
 import React from 'react'
+import { Header } from '../../Components/Header'
 
 const Dog: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const Dog: React.FC = () => {
         justifyContent: 'center'
       }}
     >
+      <Header />
       Dogs
     </Box>
   )
