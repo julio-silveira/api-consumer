@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import {
   Box,
   Button,
@@ -7,15 +8,33 @@ import {
   Stack,
   TextField
 } from '@mui/material'
-import React from 'react'
-import { LoginFormInterface } from '../../@types/FormTypes'
+
 import { CustomMainBox } from '../../Components/CustomMainBox'
 import useForm from '../../hooks/useForm'
+import useAxios from '../../hooks/useAxios'
 
 const initialState = { username: '', password: '' }
 
 const Login: React.FC = () => {
+  const [remember, setRemember] = useState(false)
   const { formData, onInputChange } = useForm(initialState)
+  const { newAxiosRequest } = useAxios({})
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
+    const axiosResponse = await newAxiosRequest({
+      url: 'http://localhost:3000/users/login',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: {
+        username: formData.username,
+        password: formData.password
+      }
+    })
+    console.log(axiosResponse)
+  }
 
   const { username, password } = formData
   return (
@@ -30,7 +49,13 @@ const Login: React.FC = () => {
         spacing={{ xs: 0, sm: 1 }}
         width={{ xs: '90%', sm: '30%' }}
       >
-        <Stack component="form" spacing={1} py={2} px={3}>
+        <Stack
+          onSubmit={handleSubmit}
+          component="form"
+          spacing={1}
+          py={2}
+          px={3}
+        >
           <Box sx={{ display: 'flex', justifyContent: 'center' }} pb={1}>
             <img
               width="80%"
@@ -55,6 +80,7 @@ const Login: React.FC = () => {
             label="Senha"
           />
           <FormControlLabel
+            onChange={() => setRemember(!remember)}
             control={<Checkbox size="small" />}
             label="Lembrar de mim?"
           />

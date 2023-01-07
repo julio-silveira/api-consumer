@@ -6,7 +6,6 @@ const useForm = (formState: FormType) => {
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
-    console.log(value)
 
     setFormData({ ...formData, [name]: value })
   }

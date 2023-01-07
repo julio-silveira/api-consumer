@@ -26,7 +26,7 @@ export class UsersController {
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   @HttpCode(HttpStatus.OK)
-  async login(@Body() userDto: UserDto) {
+  async login(@Body() userDto) {
     return await this.authService.login(userDto);
   }
 }
