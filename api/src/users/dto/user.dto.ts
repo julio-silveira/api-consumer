@@ -1,4 +1,4 @@
-import { IsNotEmpty, Length } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional, Length } from 'class-validator';
 
 export class UserDto {
   @IsNotEmpty()
@@ -8,4 +8,8 @@ export class UserDto {
   @Length(8, 30)
   @IsNotEmpty()
   password: string;
+
+  @IsBoolean()
+  @IsOptional()
+  remember: boolean;
 }

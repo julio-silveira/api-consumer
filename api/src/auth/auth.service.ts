@@ -22,12 +22,12 @@ export class AuthService {
     } else return null;
   }
 
-  async login({ username }: UserDto) {
+  async login({ username, remember }: UserDto) {
     const payload = { username };
-    return {
-      access_token: this.jwtService.sign(payload, {
-        secret: jwtConstants.secret,
-      }),
-    };
+
+    const options = remember
+      ? { secret: jwtConstants.secret, expiresIn: '7d' }
+      : { secret: jwtConstants.secret, expiresIn: '1d' };
+    return { access_token: this.jwtService.sign(payload, options) };
   }
 }
