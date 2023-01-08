@@ -11,7 +11,7 @@ export class Address {
   @Length(1, 5)
   number: string;
 
-  @Length(3, 255)
+  @Length(2, 155)
   state: string;
 
   @Length(3, 255)

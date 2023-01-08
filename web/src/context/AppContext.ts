@@ -7,6 +7,7 @@ export interface ContextType {
   handleModalOpen: () => void
   formData: FormType
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  handleCreateCostumer: () => void
 }
 
 const AppContext = React.createContext<ContextType | null>(null)

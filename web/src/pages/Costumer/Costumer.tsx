@@ -41,9 +41,9 @@ const Costumer: React.FC = () => {
       <>
         <Header />
         <CostumersTable data={allCostumers as []} loading={loading} />
-        <Button onClick={handleModalOpen}>Open modal</Button>
         <BasicModal />
         <Fab
+          onClick={handleModalOpen}
           sx={{
             position: 'fixed',
             right: { xs: '45%', md: '1%' },

@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import { CostumerFormInterface } from '../@types/FormTypes'
+import { buildPostRequest } from '../helpers/requestHelper'
+import useAxios from '../hooks/useAxios'
 import useForm from '../hooks/useForm'
 import AppContext from './AppContext'
 
@@ -21,7 +24,17 @@ const initialCostumerForm = {
 
 const Provider: React.FC<PropsInterface> = ({ children }) => {
   const [modalStatus, setModalStatus] = useState(false)
-  const { formData, onInputChange } = useForm(initialCostumerForm)
+  const { formData, setFormData, onInputChange } = useForm(initialCostumerForm)
+  const { newAxiosRequest } = useAxios({})
+
+  const handleCreateCostumer = async () => {
+    const postRequest = buildPostRequest(formData as CostumerFormInterface)
+    console.log(postRequest)
+
+    await newAxiosRequest(postRequest)
+    setFormData(initialCostumerForm)
+    handleModalClose()
+  }
 
   const handleModalOpen = () => setModalStatus(true)
   const handleModalClose = () => setModalStatus(false)
@@ -33,7 +46,8 @@ const Provider: React.FC<PropsInterface> = ({ children }) => {
         handleModalClose,
         handleModalOpen,
         formData,
-        onInputChange
+        onInputChange,
+        handleCreateCostumer
       }}
     >
       {children}

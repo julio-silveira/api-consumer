@@ -1,4 +1,4 @@
-import { Box, Button, Stack, TextField, Typography } from '@mui/material'
+import { Button, Stack, TextField, Typography } from '@mui/material'
 import { ResponsiveStyleValue } from '@mui/system'
 import React, { useContext } from 'react'
 import { CostumerFormInterface } from '../../@types/FormTypes'
@@ -12,7 +12,9 @@ const subStacksDirections = { xs: 'column', md: 'row' } as ResponsiveStyleValue<
   'column' | 'row' | 'row-reverse' | 'column-reverse'
 >
 const CostumerForm: React.FC = () => {
-  const { formData, onInputChange } = useContext(AppContext) as ContextType
+  const { formData, onInputChange, handleCreateCostumer } = useContext(
+    AppContext
+  ) as ContextType
 
   const {
     name,
@@ -127,7 +129,11 @@ const CostumerForm: React.FC = () => {
           onChange={onInputChange}
         />
       </Stack>
-      <Button color="secondary" variant="contained">
+      <Button
+        onClick={handleCreateCostumer}
+        color="secondary"
+        variant="contained"
+      >
         Criar
       </Button>
     </Stack>
