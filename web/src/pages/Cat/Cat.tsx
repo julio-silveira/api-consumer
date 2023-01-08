@@ -17,7 +17,7 @@ const baseUrl = 'https://http.cat/'
 const sucessCode = 200
 
 const buildUrl = (statusCode: number) => {
-  return `${baseUrl}${statusCode}.jpg`
+  return `${baseUrl}${statusCode}`
 }
 
 const Cat: React.FC = () => {
