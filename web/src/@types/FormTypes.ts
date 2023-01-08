@@ -14,6 +14,23 @@ export interface FilterFormInterface {
   filter: Filters
 }
 
-type FormType = LoginFormInterface | FilterFormInterface | statusCodeInterface
+export interface CostumerFormInterface {
+  name: string
+  cpf: string
+  email: string
+  phone: string
+  postalCode: string
+  state: string
+  city: string
+  street: string
+  number: string
+  complement: string
+}
+
+type FormType =
+  | LoginFormInterface
+  | FilterFormInterface
+  | statusCodeInterface
+  | CostumerFormInterface
 
 export default FormType

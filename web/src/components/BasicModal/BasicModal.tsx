@@ -4,13 +4,14 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
 import AppContext, { ContextType } from '../../context/AppContext'
+import CostumerForm from '../CostumerForm/CostumerForm'
 
 const style = {
   position: 'absolute' as const,
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: { xs: '90%', md: '850px' },
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -25,12 +26,7 @@ export default function BasicModal() {
     <div>
       <Modal open={modalStatus} onClose={handleModalClose}>
         <Box sx={style}>
-          <Typography variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+          <CostumerForm />
         </Box>
       </Modal>
     </div>
