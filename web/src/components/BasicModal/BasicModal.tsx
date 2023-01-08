@@ -18,22 +18,17 @@ const style = {
 }
 
 export default function BasicModal() {
-  const { modalStatus, handleModalClose, handleModalOpen } = useContext(
+  const { modalStatus, handleModalClose } = useContext(
     AppContext
   ) as ContextType
   return (
     <div>
-      <Modal
-        open={modalStatus}
-        onClose={handleModalClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Modal open={modalStatus} onClose={handleModalClose}>
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography variant="h6" component="h2">
             Text in a modal
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography sx={{ mt: 2 }}>
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
           </Typography>
         </Box>

@@ -9,6 +9,7 @@ import {
   TableRow
 } from '@mui/material'
 import React from 'react'
+import { CostumersButtons } from '../CostumersButtons'
 
 interface PropsInterface {
   loading: boolean
@@ -79,7 +80,7 @@ const CostumersTable: React.FC<PropsInterface> = ({ loading, data }) => {
                     <TableCell sx={{ textAlign: 'center' }}>{cpf}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{city}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>
-                      PLACEHOLDER
+                      <CostumersButtons _id={_id} />
                     </TableCell>
                   </TableRow>
                 )

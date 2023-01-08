@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Button, Fab } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import BasicModal from '../../components/BasicModal/BasicModal'
 import { CostumersTable } from '../../components/CostumersTable'
@@ -7,6 +7,7 @@ import { Header } from '../../components/Header'
 import AppContext, { ContextType } from '../../context/AppContext'
 import { getToken } from '../../helpers/localStorageHelper'
 import useAxios from '../../hooks/useAxios'
+import AddIcon from '@mui/icons-material/Add'
 
 const getAllRequest = () => {
   const token = getToken()
@@ -42,6 +43,16 @@ const Costumer: React.FC = () => {
         <CostumersTable data={allCostumers as []} loading={loading} />
         <Button onClick={handleModalOpen}>Open modal</Button>
         <BasicModal />
+        <Fab
+          sx={{
+            position: 'fixed',
+            right: { xs: '45%', md: '1%' },
+            bottom: { xs: '5%', md: '1%' }
+          }}
+          color="secondary"
+        >
+          <AddIcon />
+        </Fab>
       </>
     </CustomMainBox>
   )
