@@ -1,7 +1,6 @@
 import {
   CircularProgress,
   IconButton,
-  LinearProgress,
   Paper,
   Stack,
   Table,
@@ -65,14 +64,23 @@ const UsersTable: React.FC<PropsInterface> = ({
         width: '90%',
         bgcolor: '#EFEFEF'
       }}
-      elevation={5}
+      elevation={7}
       component={Paper}
     >
       <Table>
         <TableHead>
           <TableRow>
             {tableHeaders.map((head) => (
-              <TableCell key={head}>{head}</TableCell>
+              <TableCell
+                sx={{
+                  textAlign: 'center',
+                  fontSize: '1.2rem',
+                  fontWeight: 700
+                }}
+                key={head}
+              >
+                {head}
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -87,12 +95,8 @@ const UsersTable: React.FC<PropsInterface> = ({
                   login: { username },
                   dob: { age }
                 }) => (
-                  <TableRow
-                    hover
-                    key={`${first} ${last} ${age}`}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell>
+                  <TableRow hover key={`${first} ${last} ${age}`}>
+                    <TableCell sx={{ textAlign: 'center' }}>
                       <img
                         style={{ borderRadius: '50%' }}
                         width="50px"
@@ -100,10 +104,14 @@ const UsersTable: React.FC<PropsInterface> = ({
                         alt={`${first}thumbnail`}
                       />
                     </TableCell>
-                    <TableCell>{`${first} ${last}`}</TableCell>
-                    <TableCell>{email}</TableCell>
-                    <TableCell>{username}</TableCell>
-                    <TableCell>{age}</TableCell>
+                    <TableCell
+                      sx={{ textAlign: 'center' }}
+                    >{`${first} ${last}`}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{email}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>
+                      {username}
+                    </TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{age}</TableCell>
                   </TableRow>
                 )
               )}
