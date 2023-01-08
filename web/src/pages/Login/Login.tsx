@@ -18,6 +18,7 @@ import {
   saveToken
 } from '../../helpers/localStorageHelper'
 import { useNavigate } from 'react-router-dom'
+import { LoginFormInterface } from '../../@types/FormTypes'
 
 const initialState = { username: '', password: '' }
 
@@ -29,6 +30,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
+    const { username, password } = formData as LoginFormInterface
     const axiosResponse = await newAxiosRequest({
       url: 'http://localhost:3000/users/login',
       method: 'POST',
@@ -36,8 +38,8 @@ const Login: React.FC = () => {
         'Content-Type': 'application/json'
       },
       data: {
-        username: formData.username,
-        password: formData.password
+        username: username,
+        password: password
       }
     })
 
@@ -52,7 +54,7 @@ const Login: React.FC = () => {
     if (getRemember()) navigate('/home')
   }, [])
 
-  const { username, password } = formData
+  const { username, password } = formData as LoginFormInterface
   return (
     <CustomMainBox>
       <Paper

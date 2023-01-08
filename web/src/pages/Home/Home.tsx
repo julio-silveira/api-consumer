@@ -1,30 +1,27 @@
-import {
-  Button,
-  FormControlLabel,
-  Paper,
-  Radio,
-  RadioGroup,
-  Stack,
-  TextField,
-  Typography
-} from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import { FilterFormInterface } from '../../@types/FormTypes'
 import { CustomMainBox } from '../../Components/CustomMainBox'
 import { Header } from '../../Components/Header'
 import HomeFilters from '../../Components/HomeFilters/HomeFilters'
 import { UsersTable } from '../../Components/UsersTable'
 import { dataInterface } from '../../Components/UsersTable/UsersTable'
 import useAxios from '../../hooks/useAxios'
+import useForm from '../../hooks/useForm'
+
+const PAGE_SIZE = 5
 
 const axiosPagedRequest = (page: number) => ({
-  url: `https://randomuser.me/api/?page=${page}&results=5&seed=project&noinfo`,
+  url: `https://randomuser.me/api/?page=${page}&results=${PAGE_SIZE}&seed=project&noinfo`,
   method: 'GET'
 })
+
+const formInitialState: FilterFormInterface = { text: '', filter: '' }
 
 const Home: React.FC = () => {
   const { response, loading, newAxiosRequest } = useAxios(axiosPagedRequest(1))
   const [usersData, setUsersData] = useState<dataInterface>({ results: [] })
   const [page, setPage] = useState(1)
+  const { formData, onInputChange, onSelectChange } = useForm(formInitialState)
 
   const updateResponseWithPagedRequest = (newPageNumber: number) => {
     newAxiosRequest(axiosPagedRequest(newPageNumber))
@@ -51,17 +48,19 @@ const Home: React.FC = () => {
     <CustomMainBox>
       <>
         <Header />
-        <HomeFilters />
-        {loading ? (
-          'Carregando...'
-        ) : (
-          <UsersTable
-            data={usersData}
-            page={page}
-            nextPage={handleNextPage}
-            previousPage={handlePreviousPage}
-          />
-        )}
+        <HomeFilters
+          formData={formData as FilterFormInterface}
+          onInputChange={onInputChange}
+          onSelectChange={onSelectChange}
+        />
+        <UsersTable
+          loading={loading}
+          data={usersData}
+          page={page}
+          nextPage={handleNextPage}
+          previousPage={handlePreviousPage}
+          pageSize={PAGE_SIZE}
+        />
       </>
     </CustomMainBox>
   )

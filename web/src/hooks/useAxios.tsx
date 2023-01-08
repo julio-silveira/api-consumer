@@ -19,10 +19,12 @@ const useAxios = (axiosParams: AxiosRequestConfig) => {
   }
 
   const retryRequest = () => {
+    setLoading(true)
     fetchData(axiosParams)
   }
 
   const newAxiosRequest = async (customParams: AxiosRequestConfig) => {
+    setLoading(true)
     const data = await fetchData(customParams)
     return data
   }
