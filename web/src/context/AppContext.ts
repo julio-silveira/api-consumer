@@ -1,7 +1,9 @@
 import React from 'react'
 
 export interface ContextType {
-  placeholder: string
+  modalStatus: boolean
+  handleModalClose: () => void
+  handleModalOpen: () => void
 }
 
 const AppContext = React.createContext<ContextType | null>(null)

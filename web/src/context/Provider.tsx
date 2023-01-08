@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import AppContext from './AppContext'
 
 interface PropsInterface {
@@ -6,9 +6,15 @@ interface PropsInterface {
 }
 
 const Provider: React.FC<PropsInterface> = ({ children }) => {
-  const placeholder = 'placeholder'
+  const [modalStatus, setModalStatus] = useState(false)
+
+  const handleModalOpen = () => setModalStatus(true)
+  const handleModalClose = () => setModalStatus(false)
+
   return (
-    <AppContext.Provider value={{ placeholder }}>
+    <AppContext.Provider
+      value={{ modalStatus, handleModalClose, handleModalOpen }}
+    >
       {children}
     </AppContext.Provider>
   )

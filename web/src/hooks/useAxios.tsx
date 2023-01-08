@@ -9,6 +9,8 @@ const useAxios = (axiosParams: AxiosRequestConfig) => {
   const fetchData = async (params: AxiosRequestConfig) => {
     try {
       const result = await axios.request(params)
+      console.log(result)
+
       setResponse(result.data)
       return result
     } catch (err) {
