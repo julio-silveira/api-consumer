@@ -60,7 +60,6 @@ const UsersTable: React.FC<PropsInterface> = ({
     <TableContainer
       sx={{
         my: 5,
-        mb: { xs: '30vh', md: '5vh' },
         width: '90%',
         bgcolor: '#EFEFEF'
       }}

@@ -9,7 +9,7 @@ import {
   TextField
 } from '@mui/material'
 
-import { CustomMainBox } from '../../Components/CustomMainBox'
+import { CustomMainBox } from '../../components/CustomMainBox'
 import useForm from '../../hooks/useForm'
 import useAxios from '../../hooks/useAxios'
 import {

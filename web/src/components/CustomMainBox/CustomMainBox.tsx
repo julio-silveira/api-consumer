@@ -14,7 +14,7 @@ const CustomMainBox: React.FC<PropsInterface> = ({ children }) => {
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         flexDirection: 'column',
         backgroundImage:
           'url("https://finestwp.co/demos/wp/shadepro/wp-content/uploads/2020/10/pattern-2.png")'
