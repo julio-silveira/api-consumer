@@ -8,33 +8,26 @@ import AppContext, { ContextType } from '../../context/AppContext'
 import { getToken } from '../../helpers/localStorageHelper'
 import useAxios from '../../hooks/useAxios'
 import AddIcon from '@mui/icons-material/Add'
-
-const getAllRequest = () => {
-  const token = getToken()
-  return {
-    method: 'GET',
-    url: 'http://localhost:3000/costumers',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
-  }
-}
+import { buildGetAllRequest } from '../../helpers/requestHelper'
 
 const Costumer: React.FC = () => {
   const { response, loading, retryRequest, newAxiosRequest } = useAxios(
-    getAllRequest()
+    buildGetAllRequest()
   )
-  const { modalStatus, handleModalClose, handleModalOpen } = useContext(
-    AppContext
-  ) as ContextType
-  const [allCostumers, setAllCostumers] = useState([])
+  const {
+    modalStatus,
+    handleModalClose,
+    handleModalOpen,
+    handleCreateCostumer,
+    allCostumers,
+    setAllCostumers
+  } = useContext(AppContext) as ContextType
 
   useEffect(() => {
     if (response !== undefined) {
       setAllCostumers(response)
     }
-  })
+  }, [response])
 
   return (
     <CustomMainBox>

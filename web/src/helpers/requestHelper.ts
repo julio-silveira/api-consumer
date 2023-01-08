@@ -29,3 +29,14 @@ export const buildPostRequest = (FormData: CostumerFormInterface) => {
     data: buildCostumerData(FormData)
   }
 }
+
+export const buildGetAllRequest = () => {
+  return {
+    method: 'GET',
+    url: `${baseUrl}/costumers`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${getToken()}`
+    }
+  }
+}
