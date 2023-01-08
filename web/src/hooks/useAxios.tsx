@@ -29,7 +29,8 @@ const useAxios = (axiosParams: AxiosRequestConfig) => {
 
   useEffect(() => {
     const { url, method } = axiosParams
-    if (method?.includes('get') && url !== undefined) fetchData(axiosParams)
+    if (method?.toLocaleLowerCase().includes('get') && url !== undefined)
+      fetchData(axiosParams)
   }, [])
   return { response, error, loading, retryRequest, newAxiosRequest }
 }
