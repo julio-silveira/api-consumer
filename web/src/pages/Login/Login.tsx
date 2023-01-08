@@ -54,12 +54,7 @@ const Login: React.FC = () => {
 
   const { username, password } = formData
   return (
-    <CustomMainBox
-      sx={{
-        backgroundImage:
-          'url("https://finestwp.co/demos/wp/shadepro/wp-content/uploads/2020/10/pattern-2.png")'
-      }}
-    >
+    <CustomMainBox>
       <Paper
         component={Stack}
         elevation={6}

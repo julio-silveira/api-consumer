@@ -3,10 +3,9 @@ import React from 'react'
 
 interface PropsInterface {
   children: React.ReactElement
-  sx: object
 }
 
-const CustomMainBox: React.FC<PropsInterface> = ({ children, sx }) => {
+const CustomMainBox: React.FC<PropsInterface> = ({ children }) => {
   return (
     <Box
       component="main"
@@ -16,7 +15,9 @@ const CustomMainBox: React.FC<PropsInterface> = ({ children, sx }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        ...sx
+        flexDirection: 'column',
+        backgroundImage:
+          'url("https://finestwp.co/demos/wp/shadepro/wp-content/uploads/2020/10/pattern-2.png")'
       }}
     >
       {children}

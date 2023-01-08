@@ -7,14 +7,14 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  Typography
 } from '@mui/material'
-import React, { Dispatch, SetStateAction } from 'react'
+import React from 'react'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 
-interface dataInterface {
-  info: object
+export interface dataInterface {
   results: []
 }
 
@@ -25,7 +25,7 @@ interface PropsInterface {
   previousPage: () => void
 }
 
-const tableHeaders = ['Foto', 'Nome', 'email', 'username', 'idade']
+const tableHeaders = ['Foto', 'Nome', 'Email', 'Nome de Usuário', 'Idade']
 
 const UsersTable: React.FC<PropsInterface> = ({
   data,
@@ -35,11 +35,11 @@ const UsersTable: React.FC<PropsInterface> = ({
 }) => {
   return (
     <TableContainer
-      sx={{ my: 10, width: '90%', bgcolor: '#EFEFEF' }}
+      sx={{ my: 5, width: '90%', bgcolor: '#EFEFEF' }}
       elevation={5}
       component={Paper}
     >
-      <Table sx={{ minWidth: 250, bgcolor: '#EFEFEF' }}>
+      <Table sx={{ minWidth: 250 }}>
         <TableHead>
           <TableRow>
             {tableHeaders.map((head) => (
@@ -82,7 +82,9 @@ const UsersTable: React.FC<PropsInterface> = ({
         <IconButton onClick={previousPage}>
           <NavigateBeforeIcon />
         </IconButton>
-        <IconButton>{page}</IconButton>
+        <IconButton>
+          <Typography>{page}</Typography>
+        </IconButton>
         <IconButton onClick={nextPage}>
           <NavigateNextIcon />
         </IconButton>
