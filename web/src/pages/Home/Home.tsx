@@ -4,7 +4,7 @@ import { CustomMainBox } from '../../Components/CustomMainBox'
 import { Header } from '../../Components/Header'
 import HomeFilters from '../../Components/HomeFilters/HomeFilters'
 import { UsersTable } from '../../Components/UsersTable'
-import { dataInterface } from '../../Components/UsersTable/UsersTable'
+import { filterResponse } from '../../helpers/filters'
 import useAxios from '../../hooks/useAxios'
 import useForm from '../../hooks/useForm'
 
@@ -19,9 +19,13 @@ const formInitialState: FilterFormInterface = { text: '', filter: '' }
 
 const Home: React.FC = () => {
   const { response, loading, newAxiosRequest } = useAxios(axiosPagedRequest(1))
-  const [usersData, setUsersData] = useState<dataInterface>({ results: [] })
+  const [usersData, setUsersData] = useState<[]>([])
   const [page, setPage] = useState(1)
-  const { formData, onInputChange, onSelectChange } = useForm(formInitialState)
+  const [actualFilters, setActualFilters] =
+    useState<FilterFormInterface>(formInitialState)
+  const [clearButton, setClearButton] = useState(false)
+  const { formData, setFormData, onInputChange, onSelectChange } =
+    useForm(formInitialState)
 
   const updateResponseWithPagedRequest = (newPageNumber: number) => {
     newAxiosRequest(axiosPagedRequest(newPageNumber))
@@ -38,11 +42,23 @@ const Home: React.FC = () => {
     updateResponseWithPagedRequest(newPage)
   }
 
+  const handleFilter = () => {
+    setActualFilters(formData as FilterFormInterface)
+    setClearButton(true)
+  }
+
+  const clearFilters = () => {
+    setFormData(formInitialState)
+    setActualFilters(formInitialState)
+    setClearButton(false)
+  }
+
   useEffect(() => {
     if (response !== undefined) {
-      setUsersData(response)
+      const data = filterResponse(actualFilters, response['results'])
+      setUsersData(data)
     }
-  }, [response])
+  }, [response, handleFilter])
 
   return (
     <CustomMainBox>
@@ -52,6 +68,9 @@ const Home: React.FC = () => {
           formData={formData as FilterFormInterface}
           onInputChange={onInputChange}
           onSelectChange={onSelectChange}
+          handleFilter={handleFilter}
+          clearFilters={clearFilters}
+          clearButton={clearButton}
         />
         <UsersTable
           loading={loading}

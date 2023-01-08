@@ -12,14 +12,14 @@ const useForm = (formState: FormType) => {
   }
 
   const onSelectChange = (
-    event: SelectChangeEvent<'user' | 'email' | 'username'>
+    event: SelectChangeEvent<'name' | 'email' | 'username'>
   ) => {
     const { name, value } = event.target
 
     setFormData({ ...formData, [name]: value })
   }
 
-  return { formData, onInputChange, onSelectChange }
+  return { formData, setFormData, onInputChange, onSelectChange }
 }
 
 export default useForm

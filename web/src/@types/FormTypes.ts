@@ -3,7 +3,7 @@ export interface LoginFormInterface {
   password: string
 }
 
-export type Filters = '' | 'user' | 'email' | 'username'
+export type Filters = '' | 'name' | 'email' | 'username'
 
 export interface FilterFormInterface {
   text: string

@@ -16,13 +16,9 @@ import React from 'react'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 
-export interface dataInterface {
-  results: []
-}
-
 interface PropsInterface {
   loading: boolean
-  data: dataInterface | undefined
+  data: []
   page: number
   nextPage: () => void
   previousPage: () => void
@@ -83,7 +79,7 @@ const UsersTable: React.FC<PropsInterface> = ({
         <TableBody>
           {loading
             ? loadingPlaceholder()
-            : data?.results.map(
+            : data.map(
                 ({
                   picture: { thumbnail },
                   name: { first, last },
