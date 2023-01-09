@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
@@ -13,27 +13,35 @@ import CustomIconButton from '../CustomIconButton/CustomIconButton'
 import { clearLocalStorage, getToken } from '../../helpers/localStorageHelper'
 import { useNavigate } from 'react-router-dom'
 import useAxios from '../../hooks/useAxios'
+import AppContext, { ContextType } from '../../context/AppContext'
 
 const pages = ['Home', 'Cats', 'Dogs', 'Costumers']
 
 const Header: React.FC = () => {
+  const { handleOpenAlert } = useContext(AppContext) as ContextType
+
   const navigate = useNavigate()
   const { newAxiosRequest } = useAxios({})
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
 
   useEffect(() => {
     const isAuth = async () => {
-      const token = getToken()
-      const axiosResponse = await newAxiosRequest({
-        url: 'http://localhost:3000/costumers',
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+      try {
+        const token = getToken()
+        const axiosResponse = await newAxiosRequest({
+          url: 'http://localhost:3000/costumers/auth',
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          }
+        })
+        if (!axiosResponse) {
+          handleLogout()
+          handleOpenAlert('Você não tem autorização', 401)
         }
-      })
-      if (!axiosResponse) {
-        handleLogout()
+      } catch (err) {
+        handleOpenAlert('Erro interno, tente novamente', 500)
       }
     }
     isAuth()

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   Box,
   Button,
@@ -19,10 +19,12 @@ import {
 } from '../../helpers/localStorageHelper'
 import { useNavigate } from 'react-router-dom'
 import { LoginFormInterface } from '../../@types/FormTypes'
+import AppContext, { ContextType } from '../../context/AppContext'
 
 const initialState = { username: '', password: '' }
 
 const Login: React.FC = () => {
+  const { handleOpenAlert } = useContext(AppContext) as ContextType
   const navigate = useNavigate()
   const [remember, setRemember] = useState(false)
   const { formData, onInputChange } = useForm(initialState)
@@ -46,7 +48,10 @@ const Login: React.FC = () => {
     if (axiosResponse?.status === 200) {
       saveRemember(remember)
       saveToken(axiosResponse?.data.access_token)
+      handleOpenAlert('Login efetuado com sucesso', 200)
       return navigate('/home')
+    } else {
+      handleOpenAlert('Usuário inválido ou senha incorreta', 401)
     }
   }
 
@@ -57,56 +62,58 @@ const Login: React.FC = () => {
   const { username, password } = formData as LoginFormInterface
   return (
     <CustomMainBox>
-      <Paper
-        component={Stack}
-        elevation={6}
-        spacing={{ xs: 0, sm: 1 }}
-        width={{ xs: '90%', sm: '30%' }}
-        sx={{ bgcolor: '#EFEFEF' }}
-      >
-        <Stack
-          onSubmit={handleSubmit}
-          component="form"
-          spacing={1}
-          py={6}
-          px={3}
+      <>
+        <Paper
+          component={Stack}
+          elevation={6}
+          spacing={{ xs: 0, sm: 1 }}
+          width={{ xs: '90%', sm: '30%' }}
+          sx={{ bgcolor: '#EFEFEF' }}
         >
-          <Box sx={{ display: 'flex', justifyContent: 'center' }} pb={3}>
-            <img
-              width="80%"
-              src="https://www.sharenergy.com.br/wp-content/uploads/2022/12/logo_color.png"
-              alt="SharenergyLogo"
+          <Stack
+            onSubmit={handleSubmit}
+            component="form"
+            spacing={1}
+            py={6}
+            px={3}
+          >
+            <Box sx={{ display: 'flex', justifyContent: 'center' }} pb={3}>
+              <img
+                width="80%"
+                src="https://www.sharenergy.com.br/wp-content/uploads/2022/12/logo_color.png"
+                alt="SharenergyLogo"
+              />
+            </Box>
+            <TextField
+              color="secondary"
+              name="username"
+              value={username}
+              onChange={onInputChange}
+              size="small"
+              type="text"
+              label="Nome de usuário"
             />
-          </Box>
-          <TextField
-            color="secondary"
-            name="username"
-            value={username}
-            onChange={onInputChange}
-            size="small"
-            type="text"
-            label="Nome de usuário"
-          />
-          <TextField
-            color="secondary"
-            name="password"
-            value={password}
-            onChange={onInputChange}
-            size="small"
-            type="password"
-            label="Senha"
-          />
-          <FormControlLabel
-            sx={{ justifyContent: 'center' }}
-            onChange={() => setRemember(!remember)}
-            control={<Checkbox color="secondary" size="small" />}
-            label="Lembrar de mim?"
-          />
-          <Button type="submit" color="secondary" variant="contained">
-            Entrar
-          </Button>
-        </Stack>
-      </Paper>
+            <TextField
+              color="secondary"
+              name="password"
+              value={password}
+              onChange={onInputChange}
+              size="small"
+              type="password"
+              label="Senha"
+            />
+            <FormControlLabel
+              sx={{ justifyContent: 'center' }}
+              onChange={() => setRemember(!remember)}
+              control={<Checkbox color="secondary" size="small" />}
+              label="Lembrar de mim?"
+            />
+            <Button type="submit" color="secondary" variant="contained">
+              Entrar
+            </Button>
+          </Stack>
+        </Paper>
+      </>
     </CustomMainBox>
   )
 }

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FilterFormInterface } from '../../@types/FormTypes'
+import CustomAlert from '../../components/CustomAlert/CustomAlert'
 import { CustomMainBox } from '../../components/CustomMainBox'
 import { Header } from '../../components/Header'
 import HomeFilters from '../../components/HomeFilters/HomeFilters'
 import { UsersTable } from '../../components/UsersTable'
+import AppContext, { ContextType } from '../../context/AppContext'
 import { filterResponse } from '../../helpers/filters'
 import useAxios from '../../hooks/useAxios'
 import useForm from '../../hooks/useForm'
@@ -18,6 +20,7 @@ const axiosPagedRequest = (page: number) => ({
 const formInitialState: FilterFormInterface = { text: '', filter: '' }
 
 const Home: React.FC = () => {
+  const { handleOpenAlert } = useContext(AppContext) as ContextType
   const { response, loading, newAxiosRequest } = useAxios(axiosPagedRequest(1))
   const [usersData, setUsersData] = useState<[]>([])
   const [page, setPage] = useState(1)

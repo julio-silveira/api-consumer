@@ -63,46 +63,70 @@ const Provider: React.FC<PropsInterface> = ({ children }) => {
   }
 
   const handleCreateCostumer = async () => {
-    const postRequest = buildPostRequest(formData as CostumerFormInterface)
-    await newAxiosRequest(postRequest)
-    setFormData(initialCostumerForm)
-    await handleGetAllCostumer()
-    handleModalClose()
+    try {
+      const postRequest = buildPostRequest(formData as CostumerFormInterface)
+      await newAxiosRequest(postRequest)
+
+      setFormData(initialCostumerForm)
+      await handleGetAllCostumer()
+      handleModalClose()
+      handleOpenAlert('Cliente cadastrado com sucesso', 201)
+    } catch (err) {
+      handleOpenAlert('Erro interno ', 500)
+    }
   }
 
   const handleStartEditingCostumer = async (_id: string) => {
-    const getOne = await newAxiosRequest(buildGetOneRequest(_id))
-    if (getOne !== undefined) {
-      setOnEditCostumerId(getOne.data._id)
-      const newFormData = getOne.data as CostumerResponseInterface
-      setFormData(buildFormData(newFormData))
-      setModalType('edit')
-      handleModalOpen()
+    try {
+      const getOne = await newAxiosRequest(buildGetOneRequest(_id))
+      if (getOne !== undefined) {
+        setOnEditCostumerId(getOne.data._id)
+        const newFormData = getOne.data as CostumerResponseInterface
+        setFormData(buildFormData(newFormData))
+        setModalType('edit')
+        handleModalOpen()
+      }
+    } catch (err) {
+      handleOpenAlert('Erro interno, tente novamente', 500)
     }
   }
 
   const handleEditCostumer = async () => {
-    const putRequest = buildUpdateRequest(
-      onEditCostumerId,
-      formData as CostumerFormInterface
-    )
-    await newAxiosRequest(putRequest)
-    setFormData(initialCostumerForm)
-    await handleGetAllCostumer()
-    handleModalClose()
+    try {
+      const putRequest = buildUpdateRequest(
+        onEditCostumerId,
+        formData as CostumerFormInterface
+      )
+      await newAxiosRequest(putRequest)
+      setFormData(initialCostumerForm)
+      await handleGetAllCostumer()
+      handleModalClose()
+      handleOpenAlert('Cliente editado com sucesso', 200)
+    } catch (err) {
+      handleOpenAlert('Erro interno, tente novamente', 500)
+    }
   }
 
   const handleDeleteCostumer = async (_id: string) => {
-    await newAxiosRequest(buildDeleteRequest(_id))
-    await handleGetAllCostumer()
+    try {
+      await newAxiosRequest(buildDeleteRequest(_id))
+      await handleGetAllCostumer()
+      handleOpenAlert('Cliente removido com sucesso', 200)
+    } catch (err) {
+      handleOpenAlert('Erro interno, tente novamente', 500)
+    }
   }
 
   const handleViewCostumerDetails = async (_id: string) => {
-    const getOne = await newAxiosRequest(buildGetOneRequest(_id))
-    if (getOne !== undefined) {
-      setCostumerDetails(buildFormData(getOne.data))
-      setModalType('view')
-      handleModalOpen()
+    try {
+      const getOne = await newAxiosRequest(buildGetOneRequest(_id))
+      if (getOne !== undefined) {
+        setCostumerDetails(buildFormData(getOne.data))
+        setModalType('view')
+        handleModalOpen()
+      }
+    } catch (err) {
+      handleOpenAlert('Erro interno, tente novamente', 500)
     }
   }
 
