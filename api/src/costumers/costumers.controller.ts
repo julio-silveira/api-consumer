@@ -24,6 +24,11 @@ export class CostumersController {
     return this.costumersService.create(createCostumerDto);
   }
 
+  @Get('/auth')
+  checkAuth() {
+    return 'Usuário autenticado';
+  }
+
   @Get()
   findAll() {
     return this.costumersService.findAll();
