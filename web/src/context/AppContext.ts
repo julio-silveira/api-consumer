@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react'
-import FormType from '../@types/FormTypes'
+import FormType, { CostumerFormInterface } from '../@types/FormTypes'
 import { ModalType } from '../@types/ModalTypes'
 
 export interface ContextType {
@@ -17,6 +17,7 @@ export interface ContextType {
   handleDeleteCostumer: (_id: string) => void
   handleViewCostumerDetails: (_id: string) => void
   modalType: ModalType
+  costumerDetails: CostumerFormInterface
 }
 
 const AppContext = React.createContext<ContextType | null>(null)

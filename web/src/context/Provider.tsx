@@ -35,6 +35,8 @@ const Provider: React.FC<PropsInterface> = ({ children }) => {
   const [allCostumers, setAllCostumers] = useState<[]>([])
   const [modalStatus, setModalStatus] = useState(false)
   const [modalType, setModalType] = useState<ModalType>('create')
+  const [costumerDetails, setCostumerDetails] =
+    useState<CostumerFormInterface>(initialCostumerForm)
   const [onEditCostumerId, setOnEditCostumerId] = useState('')
   const { formData, setFormData, onInputChange } = useForm(initialCostumerForm)
   const { newAxiosRequest } = useAxios({})
@@ -73,8 +75,6 @@ const Provider: React.FC<PropsInterface> = ({ children }) => {
       onEditCostumerId,
       formData as CostumerFormInterface
     )
-    console.log(putRequest)
-
     await newAxiosRequest(putRequest)
     setFormData(initialCostumerForm)
     await handleGetAllCostumer()
@@ -86,9 +86,13 @@ const Provider: React.FC<PropsInterface> = ({ children }) => {
     await handleGetAllCostumer()
   }
 
-  const handleViewCostumerDetails = (_id: string) => {
-    setModalType('view')
-    handleModalOpen()
+  const handleViewCostumerDetails = async (_id: string) => {
+    const getOne = await newAxiosRequest(buildGetOneRequest(_id))
+    if (getOne !== undefined) {
+      setCostumerDetails(buildFormData(getOne.data))
+      setModalType('view')
+      handleModalOpen()
+    }
   }
 
   const handleModalOpen = () => setModalStatus(true)
@@ -110,7 +114,8 @@ const Provider: React.FC<PropsInterface> = ({ children }) => {
         handleEditCostumer,
         handleDeleteCostumer,
         handleViewCostumerDetails,
-        modalType
+        modalType,
+        costumerDetails
       }}
     >
       {children}

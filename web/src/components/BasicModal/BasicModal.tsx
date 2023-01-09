@@ -1,10 +1,9 @@
 import React, { useContext } from 'react'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
 import AppContext, { ContextType } from '../../context/AppContext'
 import CostumerForm from '../CostumerForm/CostumerForm'
+import { CostumerDetails } from '../CostumerDetails'
 
 const style = {
   position: 'absolute' as const,
@@ -29,9 +28,7 @@ export default function BasicModal() {
           {modalType === 'create' || modalType === 'edit' ? (
             <CostumerForm />
           ) : null}
-          {modalType === 'view' ? (
-            <Typography> Modo Vizualização</Typography>
-          ) : null}
+          {modalType === 'view' ? <CostumerDetails /> : null}
         </Box>
       </Modal>
     </article>
