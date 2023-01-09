@@ -23,23 +23,64 @@ const CostumerDetails: React.FC = () => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        textAlign: 'center'
       }}
       component="article"
     >
-      <Typography pb={3} variant="h4">{`Informações do usuário`}</Typography>
+      <Typography pb={3} variant="h4">
+        Informações
+      </Typography>
       <Stack sx={{ width: '90%' }} spacing={2}>
-        <Typography variant="h6">{`Nome: ${name}`}</Typography>
-        <Typography variant="h6">{`CPF: ${toCPF(cpf)}`}</Typography>
-        <Typography variant="h6">{`Email: ${email}`}</Typography>
-        <Typography variant="h6">{`Telefone: ${toPhoneNumber(
-          phone
-        )}`}</Typography>
-        <Typography variant="body1">{`Rua: ${street} ${
-          complement === undefined ? '' : complement
-        } Nº: ${number}`}</Typography>
-        <Typography variant="body1">{`Cidade: ${city}/${state}`}</Typography>
-        <Typography variant="body1">{`CEP:${toCEP(postalCode)}`}</Typography>
+        <Box>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            Nome
+          </Typography>
+          <Typography variant="h6">{name}</Typography>
+        </Box>
+
+        <Box>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            CPF
+          </Typography>
+          <Typography variant="h6">{toCPF(cpf)}</Typography>
+        </Box>
+
+        <Box>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            Email
+          </Typography>
+          <Typography variant="h6">{email}</Typography>
+        </Box>
+
+        <Box>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            Telefone
+          </Typography>
+          <Typography variant="h6">{toPhoneNumber(phone)}</Typography>
+        </Box>
+
+        <Box>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            Rua
+          </Typography>
+          <Typography variant="h6">{`${street}
+          ${complement === undefined ? '' : complement} ${number}`}</Typography>
+        </Box>
+
+        <Box>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            Cidade/Estado
+          </Typography>
+          <Typography variant="h6">{`${city}/${state}`}</Typography>
+        </Box>
+
+        <Box>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            CEP
+          </Typography>
+          <Typography variant="h6">{toCEP(postalCode)}</Typography>
+        </Box>
       </Stack>
     </Box>
   )

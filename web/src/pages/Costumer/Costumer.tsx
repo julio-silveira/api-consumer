@@ -21,31 +21,30 @@ const Costumer: React.FC = () => {
   }, [response])
 
   return (
-    <CustomMainBox>
-      <>
-        <Header />
-        {allCostumers.length === 0 ? (
-          <Typography variant="h5" pt="50vh">
-            Não existem clientes cadastrados.
-          </Typography>
-        ) : (
-          <CostumersTable data={allCostumers as []} loading={loading} />
-        )}
-
-        <BasicModal />
-        <Fab
-          onClick={handleStartCreatingCostumer}
-          sx={{
-            position: 'fixed',
-            right: { xs: '45%', md: '1%' },
-            bottom: { xs: '5%', md: '1%' }
-          }}
-          color="secondary"
-        >
-          <AddIcon />
-        </Fab>
-      </>
-    </CustomMainBox>
+    <>
+      <Header />
+      <CustomMainBox>
+        <>
+          {allCostumers.length === 0 ? (
+            <Typography variant="h5" pt="50vh">
+              Não existem clientes cadastrados.
+            </Typography>
+          ) : (
+            <CostumersTable data={allCostumers as []} loading={loading} />
+          )}
+          <Fab
+            sx={{ alignSelf: { xs: 'center', md: 'end' }, m: 2 }}
+            variant="extended"
+            onClick={handleStartCreatingCostumer}
+            color="secondary"
+          >
+            <AddIcon />
+            Cadastrar novo cliente
+          </Fab>
+          <BasicModal />
+        </>
+      </CustomMainBox>
+    </>
   )
 }
 

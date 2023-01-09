@@ -7,7 +7,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Typography
 } from '@mui/material'
@@ -15,6 +14,7 @@ import React from 'react'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import { randomUserInterface } from '../../@types/RandomUsersTypes'
+import { CustomTableHeader } from '../CustomTableHeader'
 
 interface PropsInterface {
   loading: boolean
@@ -68,22 +68,7 @@ const UsersTable: React.FC<PropsInterface> = ({
       component={Paper}
     >
       <Table>
-        <TableHead>
-          <TableRow>
-            {tableHeaders.map((head) => (
-              <TableCell
-                sx={{
-                  textAlign: 'center',
-                  fontSize: '1.2rem',
-                  fontWeight: 700
-                }}
-                key={head}
-              >
-                {head}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
+        <CustomTableHeader tableHeaders={tableHeaders} />
         <TableBody>
           {loading
             ? loadingPlaceholder()
@@ -98,8 +83,10 @@ const UsersTable: React.FC<PropsInterface> = ({
                   <TableRow hover key={`${first} ${last} ${age}`}>
                     <TableCell sx={{ textAlign: 'center' }}>
                       <img
-                        style={{ borderRadius: '50%' }}
-                        width="50px"
+                        style={{
+                          borderRadius: '50%'
+                        }}
+                        width="75px"
                         src={thumbnail}
                         alt={`${first}thumbnail`}
                       />
@@ -111,21 +98,23 @@ const UsersTable: React.FC<PropsInterface> = ({
                     <TableCell sx={{ textAlign: 'center' }}>
                       {username}
                     </TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{age}</TableCell>
+                    <TableCell
+                      sx={{ textAlign: 'center' }}
+                    >{`${age} anos`}</TableCell>
                   </TableRow>
                 )
               )}
         </TableBody>
       </Table>
       <Stack sx={{ justifyContent: 'center' }} direction="row">
-        <IconButton onClick={previousPage}>
-          <NavigateBeforeIcon />
+        <IconButton size="large" onClick={previousPage}>
+          <NavigateBeforeIcon fontSize="large" />
         </IconButton>
-        <IconButton>
-          <Typography>{page}</Typography>
+        <IconButton size="large">
+          <Typography fontSize="large">{page}</Typography>
         </IconButton>
-        <IconButton onClick={nextPage}>
-          <NavigateNextIcon />
+        <IconButton size="large" onClick={nextPage}>
+          <NavigateNextIcon fontSize="large" />
         </IconButton>
       </Stack>
     </TableContainer>

@@ -6,8 +6,7 @@ import {
   InputLabel,
   OutlinedInput,
   Paper,
-  Stack,
-  Typography
+  Stack
 } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useContext, useState } from 'react'
@@ -44,63 +43,55 @@ const Cat: React.FC = () => {
   }
 
   return (
-    <CustomMainBox>
-      <>
-        <Header />
-        <Container
-          sx={{
-            mt: 12,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'flex-start'
-          }}
-        >
-          <Paper
+    <>
+      <Header />
+      <CustomMainBox>
+        <>
+          <Container
             sx={{
+              display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'center',
-              bgcolor: '#EFEFEF'
+              justifyContent: 'flex-start'
             }}
-            elevation={4}
-            component={Stack}
-            spacing={1}
-            py={1}
-            pb={2}
-            px={4}
-            mb={2}
           >
-            <Typography
-              color="secondary"
-              sx={{ fontWeight: 700, pb: 1 }}
-              variant="body1"
+            <Paper
+              sx={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: '#EFEFEF'
+              }}
+              elevation={4}
+              component={Stack}
+              spacing={1}
+              p={1.5}
+              mb={2}
             >
-              HTTP Cats
-            </Typography>
-            <FormControl component="form" onSubmit={handleChangeImage}>
-              <InputLabel color="secondary">Buscar</InputLabel>
-              <OutlinedInput
-                name="statusCode"
-                value={statusCode}
-                onChange={onInputChange}
-                color="secondary"
-                label="Buscar"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton size="large" type="submit" color="secondary">
-                      <SearchIcon fontSize="large" />
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-          </Paper>
-          <Box width={{ xs: '100%', md: '60%' }} mb={4}>
-            <img width="100%" src={imageUrl} alt="cat" />
-          </Box>
-        </Container>
-      </>
-    </CustomMainBox>
+              <FormControl component="form" onSubmit={handleChangeImage}>
+                <InputLabel color="secondary">Buscar</InputLabel>
+                <OutlinedInput
+                  name="statusCode"
+                  value={statusCode}
+                  onChange={onInputChange}
+                  color="secondary"
+                  label="Buscar"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton size="large" type="submit" color="secondary">
+                        <SearchIcon fontSize="large" />
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+            </Paper>
+            <Box width={{ xs: '100%', md: '60%' }} mb={4}>
+              <img width="100%" src={imageUrl} alt="cat" />
+            </Box>
+          </Container>
+        </>
+      </CustomMainBox>
+    </>
   )
 }
 

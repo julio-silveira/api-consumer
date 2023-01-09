@@ -61,13 +61,13 @@ const Login: React.FC = () => {
 
   const { username, password } = formData as LoginFormInterface
   return (
-    <CustomMainBox>
+    <CustomMainBox sx={{ justifyContent: 'center', mt: 0 }}>
       <>
         <Paper
           component={Stack}
           elevation={6}
           spacing={{ xs: 0, sm: 1 }}
-          width={{ xs: '90%', sm: '30%' }}
+          width={{ xs: '90%', sm: '340px' }}
           sx={{ bgcolor: '#EFEFEF' }}
         >
           <Stack
@@ -79,7 +79,7 @@ const Login: React.FC = () => {
           >
             <Box sx={{ display: 'flex', justifyContent: 'center' }} pb={3}>
               <img
-                width="80%"
+                width="100%"
                 src="https://www.sharenergy.com.br/wp-content/uploads/2022/12/logo_color.png"
                 alt="SharenergyLogo"
               />
@@ -89,7 +89,6 @@ const Login: React.FC = () => {
               name="username"
               value={username}
               onChange={onInputChange}
-              size="small"
               type="text"
               label="Nome de usuário"
             />
@@ -98,14 +97,13 @@ const Login: React.FC = () => {
               name="password"
               value={password}
               onChange={onInputChange}
-              size="small"
               type="password"
               label="Senha"
             />
             <FormControlLabel
               sx={{ justifyContent: 'center' }}
               onChange={() => setRemember(!remember)}
-              control={<Checkbox color="secondary" size="small" />}
+              control={<Checkbox color="secondary" />}
               label="Lembrar de mim?"
             />
             <Button type="submit" color="secondary" variant="contained">

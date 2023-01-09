@@ -67,35 +67,36 @@ const Home: React.FC = () => {
   }, [response, handleFilter])
 
   return (
-    <CustomMainBox>
-      <>
-        <Header />
-
-        <HomeFilters
-          formData={formData as FilterFormInterface}
-          onInputChange={onInputChange}
-          onSelectChange={onSelectChange}
-          handleFilter={handleFilter}
-          clearFilters={clearFilters}
-          clearButton={clearButton}
-        />
-
-        {usersData.length === 0 ? (
-          <Typography>
-            Não foram encontrados usuários que atendam a essas características{' '}
-          </Typography>
-        ) : (
-          <UsersTable
-            loading={loading}
-            data={usersData}
-            page={page}
-            nextPage={handleNextPage}
-            previousPage={handlePreviousPage}
-            pageSize={PAGE_SIZE}
+    <>
+      <Header />
+      <CustomMainBox>
+        <>
+          <HomeFilters
+            formData={formData as FilterFormInterface}
+            onInputChange={onInputChange}
+            onSelectChange={onSelectChange}
+            handleFilter={handleFilter}
+            clearFilters={clearFilters}
+            clearButton={clearButton}
           />
-        )}
-      </>
-    </CustomMainBox>
+
+          {usersData.length === 0 ? (
+            <Typography>
+              Não foram encontrados usuários que atendam a essas características{' '}
+            </Typography>
+          ) : (
+            <UsersTable
+              loading={loading}
+              data={usersData}
+              page={page}
+              nextPage={handleNextPage}
+              previousPage={handlePreviousPage}
+              pageSize={PAGE_SIZE}
+            />
+          )}
+        </>
+      </CustomMainBox>
+    </>
   )
 }
 

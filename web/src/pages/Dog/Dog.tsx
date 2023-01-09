@@ -45,47 +45,46 @@ const Dog: React.FC = () => {
   }
 
   return (
-    <CustomMainBox>
-      <>
-        <Header />
-        <Container
-          sx={{
-            mt: 12,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'flex-start'
-          }}
-        >
-          <Box
+    <>
+      <Header />
+
+      <CustomMainBox>
+        <>
+          <Header />
+          <Container
             sx={{
               display: 'flex',
-              justifyContent: 'center',
-              border: '5px solid black',
-              borderRadius: '10px'
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'flex-start'
             }}
-            width={{ xs: '100%', md: '50%' }}
-            maxHeight="60vh"
-            mb={4}
           >
-            <img width="100%" src={dogUrl} alt="dog" />
-          </Box>
-        </Container>
-        <Fab
-          sx={{
-            mb: 2,
-            position: 'fixed',
-            bottom: { xs: '3%', md: '1%' },
-            left: { xs: '45%', md: '50%' }
-          }}
-          onClick={refreshDog}
-          disabled={handleDisableButton()}
-          color="secondary"
-        >
-          <RefreshIcon />
-        </Fab>
-      </>
-    </CustomMainBox>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                border: '5px solid black',
+                borderRadius: '10px'
+              }}
+              width={{ xs: '100%', md: '50%' }}
+              maxHeight="60vh"
+              mb={4}
+            >
+              <img width="100%" src={dogUrl} alt="dog" />
+            </Box>
+          </Container>
+          <Fab
+            variant="extended"
+            onClick={refreshDog}
+            disabled={handleDisableButton()}
+            color="secondary"
+          >
+            <RefreshIcon />
+            Novo Cachorro
+          </Fab>
+        </>
+      </CustomMainBox>
+    </>
   )
 }
 

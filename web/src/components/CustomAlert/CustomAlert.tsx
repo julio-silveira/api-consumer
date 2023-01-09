@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, Box, Fade, IconButton, LinearProgress } from '@mui/material'
+import { Alert, Box, IconButton, LinearProgress, Snackbar } from '@mui/material'
 
 import AppContext, { ContextType } from '../../context/AppContext'
 import CloseIcon from '@mui/icons-material/Close'
@@ -28,16 +28,16 @@ const CustomAlert = () => {
   }, [handleCloseAlert])
 
   return (
-    <Fade in={open} unmountOnExit>
+    <Snackbar
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right'
+      }}
+      open={open}
+      onClose={handleCloseAlert}
+    >
       <Alert
         severity={type}
-        sx={{
-          position: 'fixed',
-          bottom: { xs: '10%', sm: '1%' },
-          right: '1%',
-          display: 'flex',
-          alignItems: 'center'
-        }}
         action={
           <IconButton type="button" onClick={handleCloseAlert}>
             <CloseIcon color={type} />
@@ -49,7 +49,7 @@ const CustomAlert = () => {
           <LinearProgress color={type} variant="determinate" value={progress} />
         </Box>
       </Alert>
-    </Fade>
+    </Snackbar>
   )
 }
 

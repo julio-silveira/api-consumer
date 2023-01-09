@@ -6,8 +6,7 @@ import {
   OutlinedInput,
   Paper,
   SelectChangeEvent,
-  Stack,
-  Typography
+  Stack
 } from '@mui/material'
 import React from 'react'
 import { FilterFormInterface } from '../../@types/FormTypes'
@@ -43,22 +42,10 @@ const HomeFilters: React.FC<PropsInterface> = ({
       elevation={4}
       component={Stack}
       spacing={1}
-      py={1}
-      pb={2}
-      px={4}
-      my={12}
+      p={1.5}
       mb={2}
     >
-      <Typography
-        pb={1}
-        color="secondary"
-        variant="body1"
-        sx={{ fontWeight: 700 }}
-      >
-        FILTROS
-      </Typography>
-
-      <Stack direction="row">
+      <Stack spacing={1} direction="row">
         <FormControl onSubmit={handleFilter} component="form">
           <InputLabel color="secondary">Buscar</InputLabel>
           <OutlinedInput
@@ -77,8 +64,8 @@ const HomeFilters: React.FC<PropsInterface> = ({
           />
         </FormControl>
         {clearButton ? (
-          <IconButton onClick={clearFilters}>
-            <ClearIcon color="secondary" />
+          <IconButton size="small" onClick={clearFilters}>
+            <ClearIcon fontSize="small" color="secondary" />
           </IconButton>
         ) : null}
       </Stack>

@@ -5,12 +5,12 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow
 } from '@mui/material'
 import React from 'react'
 import { toCPF, toPhoneNumber } from '../../helpers/handleData'
 import { CostumersButtons } from '../CostumersButtons'
+import { CustomTableHeader } from '../CustomTableHeader'
 
 interface PropsInterface {
   loading: boolean
@@ -45,30 +45,14 @@ const CostumersTable: React.FC<PropsInterface> = ({ loading, data }) => {
   return (
     <TableContainer
       sx={{
-        my: 15,
-        width: '90%',
+        width: '95%',
         bgcolor: '#EFEFEF'
       }}
-      elevation={7}
+      elevation={4}
       component={Paper}
     >
       <Table>
-        <TableHead>
-          <TableRow>
-            {tableHeaders.map((head) => (
-              <TableCell
-                sx={{
-                  textAlign: 'center',
-                  fontSize: '1rem',
-                  fontWeight: 700
-                }}
-                key={head}
-              >
-                {head}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
+        <CustomTableHeader tableHeaders={tableHeaders} />
         <TableBody>
           {loading
             ? loadingPlaceholder()
