@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import { FilterFormInterface } from '../../@types/FormTypes'
-import CustomAlert from '../../components/CustomAlert/CustomAlert'
+import { randomUserInterface } from '../../@types/RandomUsersTypes'
 import { CustomMainBox } from '../../components/CustomMainBox'
 import { Header } from '../../components/Header'
 import HomeFilters from '../../components/HomeFilters/HomeFilters'
 import { UsersTable } from '../../components/UsersTable'
-import AppContext, { ContextType } from '../../context/AppContext'
 import { filterResponse } from '../../helpers/filters'
 import useAxios from '../../hooks/useAxios'
 import useForm from '../../hooks/useForm'
@@ -20,9 +20,8 @@ const axiosPagedRequest = (page: number) => ({
 const formInitialState: FilterFormInterface = { text: '', filter: '' }
 
 const Home: React.FC = () => {
-  const { handleOpenAlert } = useContext(AppContext) as ContextType
   const { response, loading, newAxiosRequest } = useAxios(axiosPagedRequest(1))
-  const [usersData, setUsersData] = useState<[]>([])
+  const [usersData, setUsersData] = useState<randomUserInterface[]>([])
   const [page, setPage] = useState(1)
   const [actualFilters, setActualFilters] =
     useState<FilterFormInterface>(formInitialState)
@@ -45,7 +44,8 @@ const Home: React.FC = () => {
     updateResponseWithPagedRequest(newPage)
   }
 
-  const handleFilter = () => {
+  const handleFilter = (event: React.FormEvent) => {
+    event.preventDefault()
     setActualFilters(formData as FilterFormInterface)
     setClearButton(true)
   }
@@ -58,7 +58,10 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (response !== undefined) {
-      const data = filterResponse(actualFilters, response['results'])
+      const data = filterResponse(
+        actualFilters,
+        response['results'] as randomUserInterface[]
+      )
       setUsersData(data)
     }
   }, [response, handleFilter])
@@ -67,6 +70,7 @@ const Home: React.FC = () => {
     <CustomMainBox>
       <>
         <Header />
+
         <HomeFilters
           formData={formData as FilterFormInterface}
           onInputChange={onInputChange}
@@ -75,14 +79,21 @@ const Home: React.FC = () => {
           clearFilters={clearFilters}
           clearButton={clearButton}
         />
-        <UsersTable
-          loading={loading}
-          data={usersData}
-          page={page}
-          nextPage={handleNextPage}
-          previousPage={handlePreviousPage}
-          pageSize={PAGE_SIZE}
-        />
+
+        {usersData.length === 0 ? (
+          <Typography>
+            Não foram encontrados usuários que atendam a essas características{' '}
+          </Typography>
+        ) : (
+          <UsersTable
+            loading={loading}
+            data={usersData}
+            page={page}
+            nextPage={handleNextPage}
+            previousPage={handlePreviousPage}
+            pageSize={PAGE_SIZE}
+          />
+        )}
       </>
     </CustomMainBox>
   )

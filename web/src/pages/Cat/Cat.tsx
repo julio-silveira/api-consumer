@@ -6,6 +6,7 @@ import {
   InputLabel,
   OutlinedInput,
   Paper,
+  Stack,
   Typography
 } from '@mui/material'
 import { Box } from '@mui/system'
@@ -56,21 +57,23 @@ const Cat: React.FC = () => {
           }}
         >
           <Paper
-            elevation={5}
             sx={{
-              px: 4,
-              py: 2,
-              mb: 2,
-              bgcolor: '#EFEFEF',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center'
+              alignItems: 'center',
+              justifyContent: 'center',
+              bgcolor: '#EFEFEF'
             }}
+            elevation={4}
+            component={Stack}
+            spacing={1}
+            py={1}
+            pb={2}
+            px={4}
+            mb={2}
           >
             <Typography
               color="secondary"
               sx={{ fontWeight: 700, pb: 1 }}
-              variant="h5"
+              variant="body1"
             >
               HTTP Cats
             </Typography>
@@ -84,8 +87,8 @@ const Cat: React.FC = () => {
                 label="Buscar"
                 endAdornment={
                   <InputAdornment position="end">
-                    <IconButton type="submit" color="secondary">
-                      <SearchIcon />
+                    <IconButton size="large" type="submit" color="secondary">
+                      <SearchIcon fontSize="large" />
                     </IconButton>
                   </InputAdornment>
                 }

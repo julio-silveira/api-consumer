@@ -1,4 +1,4 @@
-import { Fab } from '@mui/material'
+import { Fab, Typography } from '@mui/material'
 import React, { useContext, useEffect } from 'react'
 import BasicModal from '../../components/BasicModal/BasicModal'
 import { CostumersTable } from '../../components/CostumersTable'
@@ -24,7 +24,14 @@ const Costumer: React.FC = () => {
     <CustomMainBox>
       <>
         <Header />
-        <CostumersTable data={allCostumers as []} loading={loading} />
+        {allCostumers.length === 0 ? (
+          <Typography variant="h5" pt="50vh">
+            Não existem clientes cadastrados.
+          </Typography>
+        ) : (
+          <CostumersTable data={allCostumers as []} loading={loading} />
+        )}
+
         <BasicModal />
         <Fab
           onClick={handleStartCreatingCostumer}

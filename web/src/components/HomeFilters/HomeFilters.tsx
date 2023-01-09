@@ -1,19 +1,18 @@
 import {
-  Button,
   FormControl,
   IconButton,
+  InputAdornment,
   InputLabel,
-  MenuItem,
+  OutlinedInput,
   Paper,
-  Select,
   SelectChangeEvent,
   Stack,
-  TextField,
   Typography
 } from '@mui/material'
 import React from 'react'
 import { FilterFormInterface } from '../../@types/FormTypes'
 import ClearIcon from '@mui/icons-material/Clear'
+import SearchIcon from '@mui/icons-material/Search'
 
 interface PropsInterface {
   formData: FilterFormInterface
@@ -21,7 +20,7 @@ interface PropsInterface {
   onSelectChange: (
     event: SelectChangeEvent<'name' | 'email' | 'username'>
   ) => void
-  handleFilter: () => void
+  handleFilter: (event: React.FormEvent) => void
   clearFilters: () => void
   clearButton: boolean
 }
@@ -29,12 +28,11 @@ interface PropsInterface {
 const HomeFilters: React.FC<PropsInterface> = ({
   formData,
   onInputChange,
-  onSelectChange,
   handleFilter,
   clearFilters,
   clearButton
 }) => {
-  const { text, filter } = formData
+  const { text } = formData
   return (
     <Paper
       sx={{
@@ -45,42 +43,39 @@ const HomeFilters: React.FC<PropsInterface> = ({
       elevation={4}
       component={Stack}
       spacing={1}
-      mt={10}
-      py={2}
+      py={1}
+      pb={2}
       px={4}
+      my={12}
+      mb={2}
     >
-      <Typography color="secondary" variant="body1" sx={{ fontWeight: 700 }}>
+      <Typography
+        pb={1}
+        color="secondary"
+        variant="body1"
+        sx={{ fontWeight: 700 }}
+      >
         FILTROS
       </Typography>
 
-      <TextField
-        onChange={onInputChange}
-        name="text"
-        value={text}
-        size="small"
-        color="secondary"
-        label="Pesquisa"
-      />
-
-      <FormControl fullWidth>
-        <InputLabel color="secondary">Tipo</InputLabel>
-        <Select
-          name="filter"
-          color="secondary"
-          size="small"
-          value={filter}
-          label="Tipo"
-          onChange={onSelectChange}
-        >
-          <MenuItem value="name">Nome</MenuItem>
-          <MenuItem value="email">Email</MenuItem>
-          <MenuItem value="username">Usuário</MenuItem>
-        </Select>
-      </FormControl>
       <Stack direction="row">
-        <Button onClick={handleFilter} variant="contained" color="secondary">
-          Pesquisar
-        </Button>
+        <FormControl onSubmit={handleFilter} component="form">
+          <InputLabel color="secondary">Buscar</InputLabel>
+          <OutlinedInput
+            onChange={onInputChange}
+            name="text"
+            value={text}
+            color="secondary"
+            label="Pesquisa"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton size="large" type="submit" color="secondary">
+                  <SearchIcon fontSize="large" />
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
         {clearButton ? (
           <IconButton onClick={clearFilters}>
             <ClearIcon color="secondary" />

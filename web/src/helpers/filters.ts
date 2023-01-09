@@ -1,29 +1,28 @@
 import { FilterFormInterface } from '../@types/FormTypes'
+import { randomUserInterface } from '../@types/RandomUsersTypes'
 
 const checkStringIncludes = (toSearch: string, target: string) => {
   return toSearch.toLowerCase().includes(target.toLowerCase())
 }
 
+const checkName = (firstName: string, lastName: string, text: string) =>
+  checkStringIncludes(firstName, text) || checkStringIncludes(lastName, text)
+
 export const filterResponse = (
   formData: FilterFormInterface,
-  response: []
-): [] => {
+  response: randomUserInterface[]
+) => {
   const { text } = formData
-  switch (formData.filter) {
-    case 'name':
-      return response.filter(
-        ({ name: { first, last } }) =>
-          checkStringIncludes(first, text) || checkStringIncludes(last, text)
-      ) as []
-    case 'email':
-      return response.filter(({ email }) =>
-        checkStringIncludes(email, text)
-      ) as []
-    case 'username':
-      return response.filter(({ login: { username } }) =>
-        checkStringIncludes(username, text)
-      ) as []
-    default:
-      return response as []
-  }
+  return response.filter((data) => {
+    const {
+      name: { first, last },
+      login: { username },
+      email
+    } = data
+    return (
+      checkName(first, last, text) ||
+      checkStringIncludes(username, text) ||
+      checkStringIncludes(email, text)
+    )
+  })
 }

@@ -14,10 +14,11 @@ import {
 import React from 'react'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
+import { randomUserInterface } from '../../@types/RandomUsersTypes'
 
 interface PropsInterface {
   loading: boolean
-  data: []
+  data: randomUserInterface[]
   page: number
   nextPage: () => void
   previousPage: () => void
@@ -59,7 +60,7 @@ const UsersTable: React.FC<PropsInterface> = ({
   return (
     <TableContainer
       sx={{
-        my: 5,
+        mb: 3,
         width: '90%',
         bgcolor: '#EFEFEF'
       }}
