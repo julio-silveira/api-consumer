@@ -9,6 +9,7 @@ import {
   TableRow
 } from '@mui/material'
 import React from 'react'
+import { toCPF, toPhoneNumber } from '../../helpers/handleData'
 import { CostumersButtons } from '../CostumersButtons'
 
 interface PropsInterface {
@@ -76,8 +77,12 @@ const CostumersTable: React.FC<PropsInterface> = ({ loading, data }) => {
                   <TableRow hover key={`${name} ${_id}`}>
                     <TableCell sx={{ textAlign: 'center' }}>{name}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{email}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{phone}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{cpf}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>
+                      {toPhoneNumber(phone)}
+                    </TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>
+                      {toCPF(cpf)}
+                    </TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{city}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>
                       <CostumersButtons _id={_id} />

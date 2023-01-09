@@ -21,14 +21,21 @@ export default function BasicModal() {
   const { modalStatus, handleModalClose, modalType } = useContext(
     AppContext
   ) as ContextType
+
+  const isFormModal = () => modalType === 'create' || modalType === 'edit'
+  const isInfoModal = () => modalType === 'view'
+
   return (
     <article>
       <Modal open={modalStatus} onClose={handleModalClose}>
-        <Box sx={style}>
-          {modalType === 'create' || modalType === 'edit' ? (
-            <CostumerForm />
-          ) : null}
-          {modalType === 'view' ? <CostumerDetails /> : null}
+        <Box
+          sx={{
+            ...style,
+            width: { xs: '90%', md: isFormModal() ? '850px' : '400px' }
+          }}
+        >
+          {isFormModal() ? <CostumerForm /> : null}
+          {isInfoModal() ? <CostumerDetails /> : null}
         </Box>
       </Modal>
     </article>
