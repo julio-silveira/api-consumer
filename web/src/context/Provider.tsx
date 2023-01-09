@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import { AlertInterface } from '../@types/AlertTypes'
 import { CostumerFormInterface } from '../@types/FormTypes'
 import { ModalType } from '../@types/ModalTypes'
 import { CostumerResponseInterface } from '../@types/ResponseTypes'
+import { getAlertType } from '../helpers/alert'
 import {
   buildDeleteRequest,
   buildFormData,
@@ -31,12 +33,21 @@ const initialCostumerForm = {
   complement: ''
 }
 
+const initialAlertState = {
+  message: '',
+  type: 'error',
+  open: false
+} as AlertInterface
+
 const Provider: React.FC<PropsInterface> = ({ children }) => {
-  const [allCostumers, setAllCostumers] = useState<[]>([])
   const [modalStatus, setModalStatus] = useState(false)
   const [modalType, setModalType] = useState<ModalType>('create')
+
+  const [alert, setAlert] = useState<AlertInterface>(initialAlertState)
+
   const [costumerDetails, setCostumerDetails] =
     useState<CostumerFormInterface>(initialCostumerForm)
+  const [allCostumers, setAllCostumers] = useState<[]>([])
   const [onEditCostumerId, setOnEditCostumerId] = useState('')
   const { formData, setFormData, onInputChange } = useForm(initialCostumerForm)
   const { newAxiosRequest } = useAxios({})
@@ -98,24 +109,38 @@ const Provider: React.FC<PropsInterface> = ({ children }) => {
   const handleModalOpen = () => setModalStatus(true)
   const handleModalClose = () => setModalStatus(false)
 
+  const handleCloseAlert = () => setAlert(initialAlertState)
+
+  const handleOpenAlert = (message: string, statusCode: number) => {
+    const type = getAlertType(statusCode)
+    setAlert({ message, type, open: true })
+  }
+
   return (
     <AppContext.Provider
       value={{
         modalStatus,
         handleModalClose,
         handleModalOpen,
+        modalType,
+
         formData,
         onInputChange,
-        handleStartCreatingCostumer,
-        handleCreateCostumer,
+
         allCostumers,
         setAllCostumers,
+        costumerDetails,
+
+        handleStartCreatingCostumer,
+        handleCreateCostumer,
         handleStartEditingCostumer,
         handleEditCostumer,
         handleDeleteCostumer,
         handleViewCostumerDetails,
-        modalType,
-        costumerDetails
+
+        alert,
+        handleOpenAlert,
+        handleCloseAlert
       }}
     >
       {children}
