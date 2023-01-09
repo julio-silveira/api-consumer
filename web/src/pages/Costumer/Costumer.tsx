@@ -1,27 +1,18 @@
-import { Button, Fab } from '@mui/material'
-import React, { useContext, useEffect, useState } from 'react'
+import { Fab } from '@mui/material'
+import React, { useContext, useEffect } from 'react'
 import BasicModal from '../../components/BasicModal/BasicModal'
 import { CostumersTable } from '../../components/CostumersTable'
 import { CustomMainBox } from '../../components/CustomMainBox'
 import { Header } from '../../components/Header'
 import AppContext, { ContextType } from '../../context/AppContext'
-import { getToken } from '../../helpers/localStorageHelper'
 import useAxios from '../../hooks/useAxios'
 import AddIcon from '@mui/icons-material/Add'
 import { buildGetAllRequest } from '../../helpers/requestHelper'
 
 const Costumer: React.FC = () => {
-  const { response, loading, retryRequest, newAxiosRequest } = useAxios(
-    buildGetAllRequest()
-  )
-  const {
-    modalStatus,
-    handleModalClose,
-    handleModalOpen,
-    handleCreateCostumer,
-    allCostumers,
-    setAllCostumers
-  } = useContext(AppContext) as ContextType
+  const { response, loading } = useAxios(buildGetAllRequest())
+  const { handleStartCreatingCostumer, allCostumers, setAllCostumers } =
+    useContext(AppContext) as ContextType
 
   useEffect(() => {
     if (response !== undefined) {
@@ -36,7 +27,7 @@ const Costumer: React.FC = () => {
         <CostumersTable data={allCostumers as []} loading={loading} />
         <BasicModal />
         <Fab
-          onClick={handleModalOpen}
+          onClick={handleStartCreatingCostumer}
           sx={{
             position: 'fixed',
             right: { xs: '45%', md: '1%' },

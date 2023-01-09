@@ -12,9 +12,13 @@ const subStacksDirections = { xs: 'column', md: 'row' } as ResponsiveStyleValue<
   'column' | 'row' | 'row-reverse' | 'column-reverse'
 >
 const CostumerForm: React.FC = () => {
-  const { formData, onInputChange, handleCreateCostumer } = useContext(
-    AppContext
-  ) as ContextType
+  const {
+    formData,
+    onInputChange,
+    handleCreateCostumer,
+    handleEditCostumer,
+    modalType
+  } = useContext(AppContext) as ContextType
 
   const {
     name,
@@ -31,7 +35,7 @@ const CostumerForm: React.FC = () => {
   return (
     <Stack sx={{ textAlign: 'center' }} spacing={0.5} component="form">
       <Typography sx={{ fontWeight: 700 }} variant="h6" color="secondary">
-        Cadastrar Cliente
+        {modalType === 'create' ? 'Cadastrar Cliente' : 'Editar Cliente'}
       </Typography>
 
       <Stack spacing={subStacksSpacing} direction={subStacksDirections}>
@@ -130,11 +134,13 @@ const CostumerForm: React.FC = () => {
         />
       </Stack>
       <Button
-        onClick={handleCreateCostumer}
+        onClick={
+          modalType === 'create' ? handleCreateCostumer : handleEditCostumer
+        }
         color="secondary"
         variant="contained"
       >
-        Criar
+        {modalType === 'create' ? 'Cadastrar' : 'Editar'}
       </Button>
     </Stack>
   )

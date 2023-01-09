@@ -19,16 +19,21 @@ const style = {
 }
 
 export default function BasicModal() {
-  const { modalStatus, handleModalClose } = useContext(
+  const { modalStatus, handleModalClose, modalType } = useContext(
     AppContext
   ) as ContextType
   return (
-    <div>
+    <article>
       <Modal open={modalStatus} onClose={handleModalClose}>
         <Box sx={style}>
-          <CostumerForm />
+          {modalType === 'create' || modalType === 'edit' ? (
+            <CostumerForm />
+          ) : null}
+          {modalType === 'view' ? (
+            <Typography> Modo Vizualização</Typography>
+          ) : null}
         </Box>
       </Modal>
-    </div>
+    </article>
   )
 }
