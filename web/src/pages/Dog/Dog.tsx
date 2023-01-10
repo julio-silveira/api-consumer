@@ -1,5 +1,4 @@
 import { Box, Container, Fab } from '@mui/material'
-import { AxiosResponse } from 'axios'
 import React, { useContext, useState } from 'react'
 import { CustomMainBox } from '../../components/CustomMainBox'
 import { Header } from '../../components/Header'
