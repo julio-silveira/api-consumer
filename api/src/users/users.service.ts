@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  OnModuleInit,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
@@ -10,6 +15,25 @@ export class UsersService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
   ) {}
+
+  async OnModuleInit() {
+    try {
+      const res = await this.userModel.findOne({
+        username: 'desafiosharenergy',
+      });
+      if (res === null) {
+        const hash = this.hashPassword('sh@r3n3rgy');
+        const newUser = {
+          username: 'desafiosharenergy',
+          password: hash,
+        };
+        const user = await this.userModel.create(newUser);
+        Logger.log(`Usuário ${user.username} criado com sucesso`);
+      } else Logger.log(`Usuário ${res.username} já existe no banco de dados`);
+    } catch (error) {
+      throw error;
+    }
+  }
 
   async findOne(username: string): Promise<User | null> {
     return await this.userModel.findOne({ username }).exec();
