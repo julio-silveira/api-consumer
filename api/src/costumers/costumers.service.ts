@@ -31,7 +31,7 @@ export class CostumersService {
   }
 
   async remove(id: ObjectId) {
-    await this.costumerModel.remove({ _id: id });
+    await this.costumerModel.deleteOne({ _id: id });
     return { message: `Usuário de ID ${id} foi removido.` };
   }
 }

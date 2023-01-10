@@ -20,6 +20,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { LoginFormInterface } from '../../@types/FormTypes'
 import AppContext, { ContextType } from '../../context/AppContext'
+import { CustomErrorResponseInterface } from '../../@types/CustomErrorResponse'
 
 const initialState = { username: '', password: '' }
 
@@ -28,7 +29,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate()
   const [remember, setRemember] = useState(false)
   const { formData, onInputChange } = useForm(initialState)
-  const { newAxiosRequest } = useAxios({})
+  const { error, newAxiosRequest } = useAxios({})
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -50,8 +51,13 @@ const Login: React.FC = () => {
       saveToken(axiosResponse?.data.access_token)
       handleOpenAlert('Login efetuado com sucesso', 200)
       return navigate('/home')
-    } else {
-      handleOpenAlert('Usuário inválido ou senha incorreta', 401)
+    } else if (error !== undefined) {
+      const {
+        response: {
+          data: { message, statusCode }
+        }
+      } = error as CustomErrorResponseInterface
+      handleOpenAlert(message, statusCode || 401)
     }
   }
 

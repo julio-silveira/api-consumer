@@ -4,9 +4,6 @@ import React, { useContext } from 'react'
 import { CostumerFormInterface } from '../../@types/FormTypes'
 import AppContext, { ContextType } from '../../context/AppContext'
 
-// interface PropsInterface {
-//   children: React.ReactElement
-// }
 const subStacksSpacing = { xs: 0.5, md: 1 }
 const subStacksDirections = { xs: 'column', md: 'row' } as ResponsiveStyleValue<
   'column' | 'row' | 'row-reverse' | 'column-reverse'
@@ -32,6 +29,7 @@ const CostumerForm: React.FC = () => {
     number,
     complement
   } = formData as CostumerFormInterface
+
   return (
     <Stack sx={{ textAlign: 'center' }} spacing={0.5} component="form">
       <Typography sx={{ fontWeight: 700 }} variant="h6" color="secondary">

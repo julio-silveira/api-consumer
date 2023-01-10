@@ -50,7 +50,7 @@ const Provider: React.FC<PropsInterface> = ({ children }) => {
   const [allCostumers, setAllCostumers] = useState<[]>([])
   const [onEditCostumerId, setOnEditCostumerId] = useState('')
   const { formData, setFormData, onInputChange } = useForm(initialCostumerForm)
-  const { newAxiosRequest } = useAxios({})
+  const { error, newAxiosRequest } = useAxios({})
 
   const handleGetAllCostumer = async () => {
     const newAllCostumers = await newAxiosRequest(buildGetAllRequest())
@@ -65,14 +65,19 @@ const Provider: React.FC<PropsInterface> = ({ children }) => {
   const handleCreateCostumer = async () => {
     try {
       const postRequest = buildPostRequest(formData as CostumerFormInterface)
-      await newAxiosRequest(postRequest)
+      const postResponse = await newAxiosRequest(postRequest)
 
+      if (postResponse !== undefined) {
+        handleOpenAlert('Cliente cadastrado com sucesso', 201)
+      } else if (error !== undefined) {
+        handleOpenAlert(error.message, error.statusCode)
+      }
+    } catch (err) {
+      handleOpenAlert('Erro interno ', 500)
+    } finally {
       setFormData(initialCostumerForm)
       await handleGetAllCostumer()
       handleModalClose()
-      handleOpenAlert('Cliente cadastrado com sucesso', 201)
-    } catch (err) {
-      handleOpenAlert('Erro interno ', 500)
     }
   }
 
@@ -97,13 +102,18 @@ const Provider: React.FC<PropsInterface> = ({ children }) => {
         onEditCostumerId,
         formData as CostumerFormInterface
       )
-      await newAxiosRequest(putRequest)
+      const patchRequest = await newAxiosRequest(putRequest)
+      if (patchRequest !== undefined) {
+        handleOpenAlert('Cliente editado com sucesso', 200)
+      } else if (error !== undefined) {
+        handleOpenAlert(error.message, error.statusCode)
+      }
+    } catch (err) {
+      handleOpenAlert('Erro interno, tente novamente', 500)
+    } finally {
       setFormData(initialCostumerForm)
       await handleGetAllCostumer()
       handleModalClose()
-      handleOpenAlert('Cliente editado com sucesso', 200)
-    } catch (err) {
-      handleOpenAlert('Erro interno, tente novamente', 500)
     }
   }
 

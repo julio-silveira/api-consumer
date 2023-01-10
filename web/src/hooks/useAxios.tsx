@@ -1,20 +1,25 @@
-import axios, { AxiosError, AxiosRequestConfig } from 'axios'
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { useEffect, useState } from 'react'
+import {
+  CustomErrorResponseDataInterface,
+  CustomErrorResponseInterface
+} from '../@types/CustomErrorResponse'
 
 const useAxios = (axiosParams: AxiosRequestConfig) => {
   const [response, setResponse] = useState(undefined)
-  const [error, setError] = useState<AxiosError>()
+  const [error, setError] = useState<CustomErrorResponseDataInterface>()
   const [loading, setLoading] = useState(true)
 
   const fetchData = async (params: AxiosRequestConfig) => {
     try {
       const result = await axios.request(params)
-      console.log(result)
-
       setResponse(result.data)
       return result
     } catch (err) {
-      setError(err as AxiosError)
+      if (err !== undefined) {
+        const handleError = err as CustomErrorResponseInterface
+        setError(handleError.response.data)
+      } else setError(err)
     } finally {
       setLoading(false)
     }

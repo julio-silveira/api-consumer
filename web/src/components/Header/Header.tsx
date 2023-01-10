@@ -62,6 +62,7 @@ const Header: React.FC = () => {
 
   const handleLogout = () => {
     clearLocalStorage()
+    handleOpenAlert('Logout realizado com sucesso', 200)
     return navigate('/')
   }
 

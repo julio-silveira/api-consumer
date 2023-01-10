@@ -11,18 +11,19 @@ import { UserDto } from './dto/user.dto';
 import { User, UserDocument } from './schemas/user.schema';
 
 @Injectable()
-export class UsersService {
+export class UsersService implements OnModuleInit {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
   ) {}
 
-  async OnModuleInit() {
+  async onModuleInit() {
     try {
+      Logger.log('Tentando criar o usuário');
       const res = await this.userModel.findOne({
         username: 'desafiosharenergy',
       });
       if (res === null) {
-        const hash = this.hashPassword('sh@r3n3rgy');
+        const hash = await this.hashPassword('sh@r3n3rgy');
         const newUser = {
           username: 'desafiosharenergy',
           password: hash,
