@@ -4,7 +4,10 @@ import {
   CustomErrorResponseDataInterface,
   CustomErrorResponseInterface
 } from '../@types/CustomErrorResponse'
-import { CostumerResponseInterface } from '../@types/ResponseTypes'
+import {
+  CostumerResponseInterface,
+  LoginResponseInterface
+} from '../@types/ResponseTypes'
 
 const useAxios = (axiosParams: AxiosRequestConfig) => {
   const [response, setResponse] = useState(undefined)
@@ -17,6 +20,7 @@ const useAxios = (axiosParams: AxiosRequestConfig) => {
     | CostumerResponseInterface
     | CostumerResponseInterface[]
     | CustomErrorResponseDataInterface
+    | LoginResponseInterface
     | undefined
   > => {
     try {

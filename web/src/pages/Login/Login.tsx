@@ -20,7 +20,8 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { LoginFormInterface } from '../../@types/FormTypes'
 import AppContext, { ContextType } from '../../context/AppContext'
-import { CustomErrorResponseInterface } from '../../@types/CustomErrorResponse'
+import { CustomErrorResponseDataInterface } from '../../@types/CustomErrorResponse'
+import { LoginResponseInterface } from '../../@types/ResponseTypes'
 
 const initialState = { username: '', password: '' }
 
@@ -29,12 +30,12 @@ const Login: React.FC = () => {
   const navigate = useNavigate()
   const [remember, setRemember] = useState(false)
   const { formData, onInputChange } = useForm(initialState)
-  const { error, newAxiosRequest } = useAxios({})
+  const { newAxiosRequest } = useAxios({})
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
     const { username, password } = formData as LoginFormInterface
-    const axiosResponse = await newAxiosRequest({
+    const axiosResponse = (await newAxiosRequest({
       url: 'http://localhost:3000/users/login',
       method: 'POST',
       headers: {
@@ -44,19 +45,16 @@ const Login: React.FC = () => {
         username: username,
         password: password
       }
-    })
-
-    if (axiosResponse?.status === 200) {
+    })) as LoginResponseInterface
+    const axiosError =
+      axiosResponse as unknown as CustomErrorResponseDataInterface
+    if (axiosResponse.access_token !== undefined) {
       saveRemember(remember)
-      saveToken(axiosResponse?.data.access_token)
+      saveToken(axiosResponse?.access_token)
       handleOpenAlert('Login efetuado com sucesso', 200)
       return navigate('/home')
-    } else if (error !== undefined) {
-      const {
-        response: {
-          data: { message, statusCode }
-        }
-      } = error as CustomErrorResponseInterface
+    } else if (axiosError.error !== undefined) {
+      const { message, statusCode } = axiosError
       handleOpenAlert(message, statusCode || 401)
     }
   }

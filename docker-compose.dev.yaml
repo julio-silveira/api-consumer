@@ -1,9 +1,9 @@
 version: '3.8'
-name: 'desafio-sharenergy'
+name: 'desafio-sharenergy-dev'
 services:
 
   db:
-    container_name: sharenergy-db
+    container_name: sharenergy-db-dev
     image: mongo:latest
     env_file:
        - .env
@@ -19,7 +19,7 @@ services:
     restart: 'always'
 
   api:
-    container_name: sharenergy-api
+    container_name: sharenergy-api-dev
     build: ./api
     working_dir: /api
     volumes:
@@ -37,7 +37,7 @@ services:
       retries: 5
   
   web:
-    container_name: web
+    container_name: sharenergy-web-dev
     build: ./web
     working_dir: /web
     volumes:

@@ -35,7 +35,7 @@ services:
       retries: 5
   
   web:
-    container_name: web
+    container_name: sharenergy-web
     build: ./web
     working_dir: /web
     env_file:

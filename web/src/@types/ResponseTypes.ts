@@ -15,3 +15,7 @@ interface AddressInterface {
   complement: string
   state: string
 }
+
+export interface LoginResponseInterface {
+  access_token: string
+}
