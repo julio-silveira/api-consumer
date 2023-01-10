@@ -21,6 +21,7 @@ const useAxios = (axiosParams: AxiosRequestConfig) => {
     | CostumerResponseInterface[]
     | CustomErrorResponseDataInterface
     | LoginResponseInterface
+    | string
     | undefined
   > => {
     try {

@@ -24,9 +24,7 @@ const Dog: React.FC = () => {
   const refreshDog = async () => {
     try {
       const fetchDog = async () => {
-        const { data } = (await newAxiosRequest(
-          axiosDogRequest
-        )) as AxiosResponse
+        const data = (await newAxiosRequest(axiosDogRequest)) as string
         !data ||
         data.includes('.mp4') ||
         data.includes('.webm') ||
