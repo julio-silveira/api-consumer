@@ -1,6 +1,6 @@
 import { Button, Stack, TextField, Typography } from '@mui/material'
 import { ResponsiveStyleValue } from '@mui/system'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { CostumerFormInterface } from '../../@types/FormTypes'
 import AppContext, { ContextType } from '../../context/AppContext'
 
@@ -17,6 +17,10 @@ const CostumerForm: React.FC = () => {
     modalType
   } = useContext(AppContext) as ContextType
 
+  const [textFields, setTextFields] = useState(false)
+  const [eleventTextFields, setElevenTextFields] = useState(false)
+  const [eightTextFields, setEightTextFields] = useState(false)
+
   const {
     name,
     cpf,
@@ -29,6 +33,38 @@ const CostumerForm: React.FC = () => {
     number,
     complement
   } = formData as CostumerFormInterface
+
+  const isTextFieldsFilled = () => {
+    const requiredTextFields = [name, email, city, street]
+    return (
+      requiredTextFields.every((field) => field.length >= 3) &&
+      number.length >= 1 &&
+      state.length >= 2
+    )
+  }
+  const isElevenDigtsFieldFilled = () => {
+    const elevenDigitsFields = [cpf, phone]
+    return elevenDigitsFields.every((field) => field.length === 11)
+  }
+
+  const isEightDigitsFilled = () => {
+    const elevenDigitsFields = [postalCode]
+    return elevenDigitsFields.every((field) => field.length === 8)
+  }
+
+  const verifiedSubmit = () => {
+    if (
+      isTextFieldsFilled() &&
+      isElevenDigtsFieldFilled() &&
+      isEightDigitsFilled()
+    ) {
+      modalType === 'create' ? handleCreateCostumer() : handleEditCostumer()
+    }
+
+    setTextFields(!isTextFieldsFilled())
+    setElevenTextFields(!isElevenDigtsFieldFilled())
+    setEightTextFields(!isEightDigitsFilled())
+  }
 
   return (
     <Stack sx={{ textAlign: 'center' }} spacing={0.5} component="form">
@@ -131,15 +167,24 @@ const CostumerForm: React.FC = () => {
           onChange={onInputChange}
         />
       </Stack>
-      <Button
-        onClick={
-          modalType === 'create' ? handleCreateCostumer : handleEditCostumer
-        }
-        color="secondary"
-        variant="contained"
-      >
+      <Button onClick={verifiedSubmit} color="secondary" variant="contained">
         {modalType === 'create' ? 'Cadastrar' : 'Editar'}
       </Button>
+      {textFields ? (
+        <Typography color="error">
+          Os campos com marcados com (*) são obrigatórios!
+        </Typography>
+      ) : null}
+      {eleventTextFields ? (
+        <Typography color="error">
+          Os campos de Telefone e CPF precisam ter 11 dígitos numéricos!
+        </Typography>
+      ) : null}
+      {eightTextFields ? (
+        <Typography color="error">
+          O campo de CEP precisa ter 8 dígitos numéricos!
+        </Typography>
+      ) : null}
     </Stack>
   )
 }

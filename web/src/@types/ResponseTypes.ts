@@ -4,6 +4,7 @@ export interface CostumerResponseInterface {
   email: string
   phone: string
   address: AddressInterface
+  _id: string
 }
 
 interface AddressInterface {

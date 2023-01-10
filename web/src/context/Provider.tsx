@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { AlertInterface } from '../@types/AlertTypes'
+import { CustomErrorResponseDataInterface } from '../@types/CustomErrorResponse'
 import { CostumerFormInterface } from '../@types/FormTypes'
 import { ModalType } from '../@types/ModalTypes'
 import { CostumerResponseInterface } from '../@types/ResponseTypes'
@@ -47,14 +48,16 @@ const Provider: React.FC<PropsInterface> = ({ children }) => {
 
   const [costumerDetails, setCostumerDetails] =
     useState<CostumerFormInterface>(initialCostumerForm)
-  const [allCostumers, setAllCostumers] = useState<[]>([])
+  const [allCostumers, setAllCostumers] = useState<CostumerResponseInterface[]>(
+    []
+  )
   const [onEditCostumerId, setOnEditCostumerId] = useState('')
   const { formData, setFormData, onInputChange } = useForm(initialCostumerForm)
-  const { error, newAxiosRequest } = useAxios({})
+  const { newAxiosRequest } = useAxios({})
 
   const handleGetAllCostumer = async () => {
     const newAllCostumers = await newAxiosRequest(buildGetAllRequest())
-    setAllCostumers(newAllCostumers?.data)
+    setAllCostumers(newAllCostumers as CostumerResponseInterface[])
   }
 
   const handleStartCreatingCostumer = () => {
@@ -66,11 +69,12 @@ const Provider: React.FC<PropsInterface> = ({ children }) => {
     try {
       const postRequest = buildPostRequest(formData as CostumerFormInterface)
       const postResponse = await newAxiosRequest(postRequest)
-
-      if (postResponse !== undefined) {
+      console.log(postResponse)
+      const postError = postResponse as CustomErrorResponseDataInterface
+      if (postResponse !== undefined && postError.error === undefined) {
         handleOpenAlert('Cliente cadastrado com sucesso', 201)
-      } else if (error !== undefined) {
-        handleOpenAlert(error.message, error.statusCode)
+      } else {
+        handleOpenAlert(postError.message, postError.statusCode)
       }
     } catch (err) {
       handleOpenAlert('Erro interno ', 500)
@@ -85,8 +89,9 @@ const Provider: React.FC<PropsInterface> = ({ children }) => {
     try {
       const getOne = await newAxiosRequest(buildGetOneRequest(_id))
       if (getOne !== undefined) {
-        setOnEditCostumerId(getOne.data._id)
-        const newFormData = getOne.data as CostumerResponseInterface
+        const { _id } = getOne as CostumerResponseInterface
+        setOnEditCostumerId(_id)
+        const newFormData = getOne as CostumerResponseInterface
         setFormData(buildFormData(newFormData))
         setModalType('edit')
         handleModalOpen()
@@ -103,10 +108,11 @@ const Provider: React.FC<PropsInterface> = ({ children }) => {
         formData as CostumerFormInterface
       )
       const patchRequest = await newAxiosRequest(putRequest)
-      if (patchRequest !== undefined) {
+      const patchError = patchRequest as CustomErrorResponseDataInterface
+      if (patchRequest !== undefined && patchError.error === undefined) {
         handleOpenAlert('Cliente editado com sucesso', 200)
-      } else if (error !== undefined) {
-        handleOpenAlert(error.message, error.statusCode)
+      } else {
+        handleOpenAlert(patchError.message, patchError.statusCode)
       }
     } catch (err) {
       handleOpenAlert('Erro interno, tente novamente', 500)
@@ -131,7 +137,7 @@ const Provider: React.FC<PropsInterface> = ({ children }) => {
     try {
       const getOne = await newAxiosRequest(buildGetOneRequest(_id))
       if (getOne !== undefined) {
-        setCostumerDetails(buildFormData(getOne.data))
+        setCostumerDetails(buildFormData(getOne as CostumerResponseInterface))
         setModalType('view')
         handleModalOpen()
       }

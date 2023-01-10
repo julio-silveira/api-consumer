@@ -7,4 +7,5 @@ export interface CustomErrorResponseInterface {
 export interface CustomErrorResponseDataInterface {
   message: string
   statusCode: number
+  error: string
 }
